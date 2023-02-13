@@ -4,6 +4,7 @@ from time import sleep
 from math import floor,ceil
 from random import randint
 import subprocess
+from shutil import copyfile
 
 #0d0h0m
 def time_to_min(timestr):
@@ -16,8 +17,9 @@ def autofind_modules():
     all_modules = []
     name = [str(a).replace("b'","").strip().lower() for a in subprocess.Popen("scluster", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.readlines()]
     cluster_name = "noctua2" if any(["noctua2" in a for a in name]) else "noctua" if any(["noctua" in a for a in name]) else "oculus"
-    prefix = "module load compiler && module load lang && module load math && " if cluster_name == "noctua2" else ""
-    for (module, key) in zip(["gcc","python","eigen"],["GCC/","Python/","Eigen/"] if cluster_name == "noctua2" else ["compiler/GCC/","lang/Python/","math/Eigen/"]):
+    print(f"Cluster Name: {cluster_name}")
+    prefix = "module load compiler && module load lang && module load math && " if "noctua" in cluster_name else ""
+    for (module, key) in zip(["gcc","python","eigen"],["GCC/","Python/","Eigen/"] if "noctua" in cluster_name else ["compiler/GCC/","lang/Python/","math/Eigen/"]):
         modules = [str(b).replace("b'","") for a in subprocess.Popen(prefix + "module avail "+module, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.readlines() for b in a.split() if key in str(b)]
         modules_versions = [ sum([int(b.replace("'",""))/10**i for i,b in enumerate(a.replace(key,"").split("-")[0].split("."))]) for a in modules]
         modules_total = [(version, name) for version,name in zip(modules_versions, modules)]
@@ -30,7 +32,7 @@ def autofind_modules():
 
 module_gcc, module_python, module_eigen, cluster = autofind_modules()
 # Generate run script
-def generate_runscript(name = "QDLC", cluster = "oculus", runtime = "7d0h0m", program = "QDLC-3.3.5.out", cores = -1, mem = -1, project = "hpc-prf-pdsm", user = "dbauch@mail.upb.de", cwd = "/scratch/hpc-prf-pdsm/dbauch/", settingfile = "$1", outputfolder = "$2", move_results_to_parent_folder = False, subname = ""):
+def generate_runscript(name = "QDLC", cluster = "oculus", runtime = "7d0h0m", program = "QDLC.out", cores = -1, mem = -1, project = "hpc-prf-pdsm", user = "dbauch@mail.upb.de", cwd = "/scratch/hpc-prf-pdsm/dbauch/", settingfile = "$1", outputfolder = "$2", move_results_to_parent_folder = False, subname = ""):
     configuration = {
         "oculus" : {"command" : "ccsalloc",
                     "modules" : [module_gcc, module_eigen, module_python],
@@ -57,10 +59,12 @@ def generate_runscript(name = "QDLC", cluster = "oculus", runtime = "7d0h0m", pr
 
     if "noctua" in cluster:
         rtm = time_to_min(runtime)
-        if cluster == "noctua2":
-            jobtype = "normal"
-        else:
-            jobtype = "short" if rtm <= 30 else ( "batch" if rtm <= 12*60 else "long" )
+        jobtype = "normal"
+        #if cluster == "noctua2":
+        #    jobtype = "normal"
+        #else:
+        #    jobtype = "short" if rtm <= 30 else ( "batch" if rtm <= 12*60 else "long" )
+        #print(f"Jobtype = {jobtype}")
         ret = """#!/bin/sh
 #SBATCH -p """+jobtype+"""
 #SBATCH -N 1
@@ -70,9 +74,9 @@ def generate_runscript(name = "QDLC", cluster = "oculus", runtime = "7d0h0m", pr
 #SBATCH -A """+project+"""
 #SBATCH --mail-type all
 #SBATCH --mail-user """+user+"""
+#SBATCH -e """+outputfolder+"""/%j.err
+#SBATCH -o """+outputfolder+"""/%j.out
 #SBATCH -J """+name+"""
-#SBATCH -o """+cwd+"""out/%A.out
-#SBATCH -e """+cwd+"""err/%A.err
 """+"\n".join(["module load " + a for a in configuration[cluster]["modules"]])+"""
 cd """+binpath+"""
 """+binpath+program+""" --file '"""+settingfile+"""' --Threads -1 '"""+outputfolder+"""' """
@@ -95,7 +99,8 @@ cd """+binpath+"""
     if move_results_to_parent_folder:
         ret += """
 mv """+os.path.join(outputfolder,subname,"*")+" "+outputfolder+"""
-rm -r """+os.path.join(outputfolder,subname)
+rm -r """+os.path.join(outputfolder,subname)+"""
+rm """+settingfile
     return ret
 
 def split_settingfile(outputpath, settings, anticipated_runtime="7d0h0m", average_runtime=-1):
@@ -110,6 +115,9 @@ def split_settingfile(outputpath, settings, anticipated_runtime="7d0h0m", averag
         print("Will split settingfile {} -> {} ({} settings) into {} subsettingfiles.".format(file,name,num,ceil(num/jobincrement)))
         newsettingfile_path = os.path.join(outputpath,name)
         os.makedirs(newsettingfile_path,exist_ok=True)
+        # Copy old settingfile here
+        _, sfname = os.path.split(file)
+        copyfile(file,os.path.join(newsettingfile_path,sfname))
         print("The new setting files will be saved to and executed from {} as 'subsettings_{}_X.txt'".format(newsettingfile_path,name))
         for i in range(ceil(num/jobincrement)):
             newsettingfile = "subsettings_"+name+"_"+str(i)+".txt"
@@ -204,4 +212,4 @@ for (file, outputpath, name, fileval, num, d, move_to_parent_folder,i) in inputs
         print("Done!. ")
     except Exception as e:
         print("Failed!\n{}".format(e))
-    sleep(1)
+    sleep(0.2)

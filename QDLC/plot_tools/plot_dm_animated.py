@@ -10,8 +10,7 @@ from os.path import dirname, realpath, join
 from math import ceil
 from sys import argv
 from mpl_toolkits.mplot3d import Axes3D
-
-from QDLC.misc.colormaps import get_colormap
+from QDLC.misc.generate_colormaps import generate_colormaps
 
 def getVals(filepath, indices = (0,-1),norm_to_one = False):
     filepath = filepath
@@ -75,7 +74,8 @@ if __name__ == "__main__":
 
     # Colormap
     colormap = 'turbo' if not any(["--colormap=" in a for a in argv]) else [ a.replace("--colormap=","") for a in argv if "--colormap=" in a ][0]
-    cmap = get_colormap(colormap)
+    generate_colormaps()
+    cmap =  matplotlib.cm.get_cmap(colormap)
     
     Writer = animation.writers['ffmpeg']
     writer = Writer(fps=fps, metadata=dict(artist='Dogwit'), bitrate=video_bitrate)

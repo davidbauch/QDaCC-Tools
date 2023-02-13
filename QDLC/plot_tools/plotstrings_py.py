@@ -5,7 +5,6 @@ from sys import argv
 from math import ceil
 import sys
 sys.path.append('../../QDLC')
-from QDLC.misc.colormaps import get_colormap_string
 
 def plotstring_generate_abitrary(filename = "", shading = "nearest", index_offset = (2,1), cbs = False, colormap = "turbo", delim = " "):
     ranges = {"conc" : ("0","1"), "indist" : ("0","1")}
@@ -19,18 +18,23 @@ import numpy as np
 from os.path import dirname, realpath
 from sys import argv
 from math import ceil, floor, sqrt
-from QDLC.misc.colormaps import get_colormap
+from QDLC.misc.generate_colormaps import generate_colormaps
+import string
 
 if __name__ == "__main__":
     path = dirname(realpath(__file__))
-
-    """+get_colormap_string(colormap)+"""
-
+    generate_colormaps()
     with open(path + "/out_"""+filename+"""","r") as f:
-        header = f.readline().split()["""+str(index_offset[1])+""":]
+        header = f.readline().split()
+        if not header[0].isnumeric():
+            comments = header
+        else:
+            comments = ["#"] + list(string.ascii_letters)
+    header = f.readline().split()["""+str(index_offset[1])+""":]
 
     # Data
-    data = np.loadtxt(path + "/out_"""+filename+"""", delimiter='"""+delim+"""', unpack=True, comments  = ["#","None","Time","w","Omega","t","x","y","lfc"])
+    comments = ["#","/"] + list(string.ascii_letters)
+    data = np.loadtxt(path + "/out_"""+filename+"""", delimiter='"""+delim+"""', unpack=True, comments = comments)
     y = data[0]; 
     x = data[1]; 
     v = data["""+str(index_offset[0])+""":]
@@ -63,7 +67,7 @@ if __name__ == "__main__":
     total_max = """+(r[1] if cbs else "None")+"""
     total_min = """+(r[0] if cbs else "None")+"""
     # Plots
-    plts = [axi.pcolormesh(x,y,a, cmap = cmap, edgecolors='none',shading='"""+shading+"""', vmin=total_min, vmax = total_max) for (a,axi) in zip(v,ax)]
+    plts = [axi.pcolormesh(x,y,a, cmap = """+colormap+""", edgecolors='none',shading='"""+shading+"""', vmin=total_min, vmax = total_max) for (a,axi) in zip(v,ax)]
     [p.set_edgecolor('face') for p in plts]
     # Colorbar
     """+("#" if cbs else "")+"""cbs = [fig.colorbar(plti, ax=axi, shrink=1,pad=0.02) for (plti,axi) in zip(plts,ax)]
