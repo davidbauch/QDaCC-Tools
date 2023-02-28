@@ -90,20 +90,27 @@ def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", rang
         #        print("Appending Result...")
         #        nv.append(f(xnew, ynew)).flatten()
         #    v = nv
+        # If resizing is possible, use equidistant plot, else use tripoint method
         n,m = 0,0
-        #if mode == "matrix":
-        #    n = len(set(x))
-        #    m = int(len(v[0])/n)
-        #    try:
-        #        p = np.reshape(y,(m,n))
-        #    except:
-        #        m = len(set(y))
-        #        n = int(len(v[0])/m)
-        #    # Reshape
-        #    y = np.reshape(y,(m,n))
-        #    x = np.reshape(x,(m,n))
-        #    v = [np.reshape(a,(m,n)) for a in v]
-        #    print(f"Matrix Dimensions are {n}x{m}")
+        if mode == "matrix":
+            n = len(set(x))
+            m = int(len(v[0])/n)
+            plot_method = "equidistant"
+            if len(y == n*m):
+                try:
+                    p = np.reshape(y,(m,n))
+                except:
+                    m = len(set(y))
+                    n = int(len(v[0])/m)
+                # Reshape
+                y = np.reshape(y,(m,n))
+                x = np.reshape(x,(m,n))
+                v = [np.reshape(a,(m,n)) for a in v]
+                print(f"Matrix Dimensions are {n}x{m}")
+            else:
+                plot_method = "tricolor"
+            print(f"Plot Method is {plot_method}")
+
         totaldata[path] = {"header" : header[-len(v):], "x" : x, "y" : y, "v" : v, "n" : n, "m" : m, "ranges" : ranges }
 
     if use_cbs and len(ranges) > 4 and any([ranges[4] != "auto", ranges[5] != "auto"]):
@@ -139,13 +146,20 @@ def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", rang
         print(f"Plotting, range settings are {total_min},{total_max}..." )
         if mode == "matrix":
             if levels == "mesh":
-                plts.extend([axi.tripcolor(x,y,a, cmap = cmap, edgecolors='none',shading=shading, vmin=total_min, vmax = total_max, rasterized=True) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])
+                if plot_method == "tricolor":
+                    plts.extend([axi.tripcolor(x,y,a, cmap = cmap, edgecolors='none',shading=shading, vmin=total_min, vmax = total_max, rasterized=True) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])
+                else:
+                    plts.extend([axi.pcolormesh(x,y,a, cmap = cmap, edgecolors='none',shading=shading, vmin=total_min, vmax = total_max, rasterized=True) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])
                 [p.set_edgecolor('face') for p in plts]
             else:
-                plts.extend([axi.tricontourf(x,y,a, cmap = cmap, levels = np.linspace(total_min, total_max, levels+1),shading=shading) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])
+                if plot_method == "tricolor":
+                    plts.extend([axi.tricontourf(x,y,a, cmap = cmap, levels = np.linspace(total_min, total_max, levels+1),shading=shading) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])
+                else:
+                    plts.extend([axi.contourf(x,y,a, cmap = cmap, levels = np.linspace(total_min, total_max, levels+1),shading=shading) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])
                 [ c.set_rasterized(True) for c in plts[-1].collections ]
         else:
-            plts.extend([axi.plot(x,a,'o', linewidth=0, markersize = 0.5) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])            
+            #plts.extend([axi.plot(x,a,'o', linewidth=0, markersize = 0.5) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])            
+            plts.extend([axi.plot(x,a, linewidth=3) for (a,axi) in zip(v,ax[ax_index:ax_index+len(v)])])            
         annatation_color = 'w' if mode == "matrix" else 'black'
         [axi.text(0.99, 0.99, head , transform=axi.transAxes, fontweight='regular', va='top', ha='right', color=annatation_color, fontsize='small') for axi,head in zip(ax[ax_index:ax_index+len(v)],header)]
         ax_index += len(v)
