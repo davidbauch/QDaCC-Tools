@@ -20,7 +20,7 @@ QDaCC is a command line tool. For specific calculations, it requires large user 
 List of available tools in the GUI:
 - Prediction of spectral and temporal properties. This is a handy feature for the user when determining the temporal and spectral inputs.
 - Basic extrapolation of input parameters: The GUI calculates and provides basic information for the user like the available states and transitions.
-- Baisc plotting: Plotting everything QDaCC calculated, plotting matrices and Bloch spheres using the evaluation and plot tools.
+- Basic plotting: Plotting everything QDaCC calculated, plotting matrices and Bloch spheres using the evaluation and plot tools.
 - Parameter Sweeps: The GUI provides a simple toolbox to generate large parameter sweeps.
 - Parameter Optimization: The GUI provides a simple toolbox to optimize the QDaCC results towards a user specified fitness function
 - [more to come]
