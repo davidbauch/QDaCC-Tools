@@ -12,25 +12,24 @@ from sys import argv
 from mpl_toolkits.mplot3d import Axes3D
 from QDLC.misc.generate_colormaps import generate_colormaps
 
-def getVals(filepath, indices = (0,-1),norm_to_one = False):
-    filepath = filepath
+def getVals(filepath, indices = (1,-1), running_index = 0, norm_to_one = False):
     print(f"Opening {filepath}")
     with open(filepath) as f:
         tdata = f.readlines()
-        tdata = [d.split("\t")[:-1] for d in tdata]
+        tdata = [d.rstrip().split("\t") for d in tdata]
         outt = []
         outd = []
-        names = tdata[0][1:][indices[0]:indices[1]] if indices[1] != -1 else tdata[0][1:][indices[0]:]
+        names = tdata[0][indices[0]:indices[1]] if indices[1] != -1 else tdata[0][indices[0]:]
         for data in tdata[1:]:
             data = data[indices[0]:indices[1]] if indices[1] != -1 else data[indices[0]:]
             ndata = [float(d) for d in data]
-            t = float(data[0]);
-            dim = int(np.sqrt(len(ndata)-1))
-            outd.append( np.reshape(ndata[1:],( dim,dim )) )
+            t = float(data[running_index])
+            dim = int(np.sqrt(len(ndata)))
+            outd.append( np.reshape(ndata,( dim,dim )) )
             if norm_to_one:
                 outd[-1] = np.where(outd[-1] != 0.0,1,0)
             outt.append(t)
-        print("Pulled data from {}".format(names[:-1]))
+        print("Pulled data from {}".format(names))
     return outt,outd,names,dim
 
 if __name__ == "__main__":
@@ -75,7 +74,7 @@ if __name__ == "__main__":
     # Colormap
     colormap = 'turbo' if not any(["--colormap=" in a for a in argv]) else [ a.replace("--colormap=","") for a in argv if "--colormap=" in a ][0]
     generate_colormaps()
-    cmap =  matplotlib.cm.get_cmap(colormap)
+    cmap =  matplotlib.colormaps.get_cmap(colormap)
     
     Writer = animation.writers['ffmpeg']
     writer = Writer(fps=fps, metadata=dict(artist='Dogwit'), bitrate=video_bitrate)

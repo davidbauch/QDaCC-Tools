@@ -2,15 +2,12 @@
 This interactive script is used to extract data from QDLC simulation.
 """
 
-if __name__ == "__main__":
+def get_files(*args, print=print):
     import sys, os
-
-    from QDLC.misc.generate_colormaps import generate_colormaps
     from QDLC.plot_tools.general_matrix_plot import plot_matrix
     from QDLC.eval_tools.extract_data_from_set import extract_single_dataset
-
     # Help
-    if (len(sys.argv) < 3 or any([a in sys.argv for a in ["-h","--help"]])):
+    if (len(args) < 2 or any([a in args for a in ["-h","--help"]])):
         print("# Need at least 2 input arguments: FileToSort, Destiny")
         print("############################## Evaluation Parameters #####################################################################")
         print("#   -m, -e, -em            --  Extraction mode matrix, entpoint, endpoint_matrix. Can be combined.")
@@ -27,53 +24,60 @@ if __name__ == "__main__":
         print("#   --colormap=str         --  Colormap for plots. Default is 'turbo'")
         #print("#   --delim=str            --  Delimitor for plots. Default is ' '")
         print("#   -cbs                   --  Plot a single colorbar for all plots. Otherwise, a colorbar for every plot is used.")
+        print("#   --type                 --  Output file Type.")
         #print("#   -forceSingle           --  Force use of only one of the logfile counters.")
         print("# Note that this script will REQUIRE the logfilecounter to be present for sorting.")
         exit()
 
     # Input Parameters
-    set_filetosort = str(sys.argv[1])
+    set_filetosort = str(args[0])
     
-    destiny = os.path.normpath(sys.argv[2])
+    destiny = os.path.normpath(args[1])
 
     # Redundant due to --last and --offset
     local = None
-    if any(["--local=" in a for a in sys.argv]):
-        local = [[b for b in a.replace("--local=","").split(":")] for a in sys.argv if "--local=" in a][0]
+    if any(["--local=" in a for a in args]):
+        local = [[b for b in a.replace("--local=","").split(":")] for a in args if "--local=" in a][0]
         local = [ float(a) if "." in a or "E" in a or "e" in a else int(a) for a in local]
         print("Looking for 'endpoint' as a local maxima in interval {}".format(local))
     
     purge = None
-    if any(["--purge=" in a for a in sys.argv]):
-        purge = [[float(b) for b in a.replace("--purge=","").split(":")] for a in sys.argv if "--purge=" in a][0]
+    if any(["--purge=" in a for a in args]):
+        purge = [[float(b) for b in a.replace("--purge=","").split(":")] for a in args if "--purge=" in a][0]
         print(f"Purging all values outside of [{purge[0]},{purge[1]}]")
     
-    clear_nans = "-purgeNAN" in sys.argv
+    clear_nans = "-purgeNAN" in args
     
-    endpoint_shift = [int(a.split("=")[-1]) for a in sys.argv if "--offset" in a.split("=")][0] if any( ["--offset" in a.split("=") for a in sys.argv] ) else 0 # The endpoint chosen will shift by this amount
-    endpoint_num = [int(a.split("=")[-1]) for a in sys.argv if "--last" in a.split("=")][0] if any( ["--last" in a.split("=") for a in sys.argv] ) else 0 # This number of endpoints will be chosen
+    endpoint_shift = [int(a.split("=")[-1]) for a in args if "--offset" in a.split("=")][0] if any( ["--offset" in a.split("=") for a in args] ) else 0 # The endpoint chosen will shift by this amount
+    endpoint_num = [int(a.split("=")[-1]) for a in args if "--last" in a.split("=")][0] if any( ["--last" in a.split("=") for a in args] ) else 0 # This number of endpoints will be chosen
     
-    interpolate = "-interpolate" in sys.argv
+    interpolate = "-interpolate" in args
     
     # Plotting Parameters
-    use_cbs = "-cbs" in sys.argv
-    colormap = [a.replace("--colormap=","") for a in sys.argv if "--colormap=" in a ][0] if any(["--colormap=" in a for a in sys.argv]) else "turbo"
+    use_cbs = "-cbs" in args
+    colormap = [a.replace("--colormap=","") for a in args if "--colormap=" in a ][0] if any(["--colormap=" in a for a in args]) else "turbo"
     
+    # Output File Type
+    output_file_type = [a.replace("--type=","") for a in args if "--type=" in a ][0].split(",") if any(["--type=" in a for a in args]) else ("pdf",)
+
     # Folder evaluation
-    use_folder = "-folder" in sys.argv
+    use_folder = "-folder" in args
     
     # Input Extraction Mode
     extraction_modes = []
-    if "-m" in sys.argv:
+    if "-m" in args:
         extraction_modes.append("set_of_calculations_to_matrix")
-    if "-e" in sys.argv:
+    if "-e" in args:
         extraction_modes.append("set_of_calculations_to_endpoints")
-    if "-em" in sys.argv:
+    if "-em" in args:
         extraction_modes.append("set_of_calculations_to_endpoints_matrix")
     if len(extraction_modes) > 0:
         extraction_modes = tuple(extraction_modes)
     else:
         extraction_modes = "auto"
+    
+    print(f"Extraction mode(s): {extraction_modes}")
+
     # Filesize threshold in MB
     filesize_threshold = 100*1024*1024 # 100 MB
 
@@ -95,7 +99,7 @@ if __name__ == "__main__":
         filter["norm_up"] = {"type": "matrix", "function": lambda x: float(x) > purge[1], "replacement" : lambda x: "nan"}
     if clear_nans:
         filter["nan"] = {"type": "matrix", "function": lambda x: x in ["nan", "NaN", "NAN"], "replacement": None}
-    if "-maxima" in sys.argv:
+    if "-maxima" in args:
         filter["max"] = {"type": "endpoint", "function": lambda x: f"{max([float(v) for v in x[-1-endpoint_shift-endpoint_num:end]])}"}
         
     
@@ -110,9 +114,9 @@ if __name__ == "__main__":
             print(f"Found logfile in {destiny}. Plotting files in folder.")
             from QDLC.misc.functionality import _get_files_to_sort
             new_files = _get_files_to_sort(destiny, filesize_threshold, filter = ["logfile.log", "settings_"])
-            new_files = [ {"Path": os.path.join(destiny, file), "extraction_method": "line"} for file in new_files ]
+            new_files = [ {"Path": os.path.join(destiny, file), "extraction_method": "line" if not "_m" in file else "matrix"} for file in new_files ]
         else:
-            new_files = extract_single_dataset(set_filetosort, destiny, extraction_modes=extraction_modes, filesize_threshold=filesize_threshold, interpolate=interpolate, set_of_filters=filter)
+            new_files = extract_single_dataset(set_filetosort, destiny, extraction_modes=extraction_modes, filesize_threshold=filesize_threshold, interpolate=interpolate, set_of_filters=filter, print=print)
         evaluated_files.extend(new_files)
 
     # Plotting
@@ -121,6 +125,16 @@ if __name__ == "__main__":
         current_output_file_path = file["Path"]
         plot_type = "matrix" if "matrix" in file["extraction_method"] else "line"
         try:
-            plot_matrix(current_output_file_path, mode=plot_type)
+            for file_type in output_file_type:
+                dpi = 400
+                if "(" in file_type:
+                    file_type, dpi = file_type[:-1].split("(")
+                    print(file_type, dpi)
+                plot_matrix(current_output_file_path, mode=plot_type, fformat=file_type, dpi=int(dpi), print=print)
+
         except Exception as e:
             print(f"Error while plotting matrix: {e}")
+
+if __name__ == "__main__":
+    from sys import argv
+    get_files(*argv[1:])

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InputDialog</class>
+ <widget class="QDialog" name="InputDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>861</width>
+    <height>196</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {background-color: #F3F4F8;}
+
+QPushButton {background-color: #88282A3A;  color: #FFFFFF; border-radius: 8px;  font-weight: bold; font-size: 16px; }
+QPushButton::hover {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #D2D4DA, stop:0.91 #88282A3A);}
+QPushButton[objectName^=&quot;button_next_tab&quot;] {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #f4501e, stop:0.91 #8d2f13);  color: #FFFFFF; border-radius: 8px; }
+QPushButton[objectName^=&quot;button_next_tab&quot;]::hover {background-color: #aaf4501e; transition: 2.5s;}
+
+QTextEdit {background-color: #D2D4DA;}
+QTextEdit::hover {background-color: #D2D4DA}
+
+QLabel {background-color: #282A3A; border-radius: 8px; color: #FFFFFF;}
+QLabel[objectName^=&quot;label_title&quot;] {background-color: #44282A3A; border-radius: 8px; color: #000000; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-bottom-width: 2px; border-bottom-color: #000000;}
+QLabel[objectName^=&quot;label_output&quot;] {background-color: #44282A3A; border-radius: 8px; color: #000000; border-top-right-radius: 0; border-top-left-radius: 0; }
+QLabel[objectName^=&quot;label_plot&quot;] {background-color: #44282A3A; border-radius: 8px; color: #000000;  border-top-right-radius: 0; border-top-left-radius: 0; }
+
+QLineEdit {border-radius: 8px;background-color: #D2D4DA; }
+QLineEdit::hover {background-color: #D2D4DA}
+
+QComboBox {border-radius: 8px; background-color: #D2D4DA;  padding-left: 10% }
+QComboBox::hover {background-color: #D2D4DA}
+
+QCheckBox {background-color: #D2D4DA;border-radius: 8px; padding-left:10% }
+QCheckBox::hover {background-color: #D2D4DA}
+
+QTextBrowser {background-color: #D2D4DA; }
+QTextBrowser[objectName^=&quot;text_output&quot;] {background-color: #44282A3A; border-radius: 8px; color: #000000; }
+
+QTabWidget::tab-bar {   border: 0px solid #282A3A;}
+QTabBar::tab {  background-color: #88282A3A;  color: white;  padding-left: 10px; padding-right:10px; padding-bottom: 10px; padding-top: 5px; font-weight: bold;}
+QTabBar::tab:selected { background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #282A3A, stop:0.91 #88282A3A); padding-right:50px; padding-left:50px; border-width: 2px; border-color: black}
+
+QScrollBar::handle:vertical {background-color: #282A3A; min-height: 30px;max-height: 20%;border-radius: 7px; margin: 0}
+QScrollBar::handle:vertical:hover{background-color: #88282A3A;}
+QScrollBar::handle:vertical:pressed {background-color: #f4501e;}
+QScrollBar::sub-line:vertical {border: none;background-color: #f4501e;height: 15px;border-top-left-radius: 7px;border-top-right-radius: 7px;subcontrol-position: top;subcontrol-origin: 0;max-height: 20%;}
+QScrollBar::sub-line:vertical:hover {background-color: #88282A3A;}
+QScrollBar::sub-line:vertical:pressed {background-color: #f4501e;}
+QScrollBar::add-line:vertical {border: none;background-color: #f4501e;height: 15px;border-bottom-left-radius: 7px;border-bottom-right-radius: 7px;subcontrol-position: bottom;subcontrol-origin: 0;max-height: 20%;}
+QScrollBar::add-line:vertical:hover {background-color: #88282A3A;}
+QScrollBar::add-line:vertical:pressed {background-color: #f4501e;}
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {background: none;}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background: none;}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="1">
+    <widget class="QPushButton" name="button_cancel">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="button_confirm">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Confirm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QLineEdit" name="input">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="frame">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>Input</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="title">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Question&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

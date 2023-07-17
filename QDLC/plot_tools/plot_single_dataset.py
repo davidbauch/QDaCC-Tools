@@ -19,7 +19,7 @@ def _plot_lines(x: np.array, y: np.array, ax = None, ranges: str = "auto", indic
     """
     plot = ax.plot(x,y,'o', linewidth=0)
 
-def plot_single_dataset(total_path: str, output_path: None, cmap: str = "turbo", delimiter: str = "auto", fformat: str = "pdf", ranges: str = "auto", indices: str = "auto", shading: str = "nearest", use_cbs: bool = True, logscale: bool = False, colorrepeat: int = 1, mode: str = "matrix"):
+def plot_single_dataset(total_path: str, output_path: None, cmap: str = "turbo", delimiter: str = "auto", fformat: str = "pdf", ranges: str = "auto", indices: str = "auto", shading: str = "nearest", use_cbs: bool = True, logscale: bool = False, colorrepeat: int = 1, mode: str = "matrix", print=print):
     from string import ascii_letters
     """
     todo: one plot per file

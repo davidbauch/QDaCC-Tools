@@ -10,7 +10,7 @@ def generate_colormaps(inputpath = os.path.join(os.path.dirname(os.path.realpath
         print(f"Generating colormaps for input path {inputpath}")
     for file in os.listdir(inputpath):
         file = file.lower()
-        if file.endswith(".png"):
+        if file.endswith(".png") or file.endswith(".svg"):
             if not silent:
                 print("Generating " + os.path.join(inputpath, file))
             im = Image.open(os.path.join(inputpath,file)) # Can be many different formats.
@@ -34,10 +34,14 @@ def generate_colormaps(inputpath = os.path.join(os.path.dirname(os.path.realpath
             #    print(" )",file=f)
 
             # Python Color Palette   
-            c = [[ pix[p,0][0], pix[p,0][1], pix[p,0][2], 255 ] for p in range(0,im.size[0], incr)]
+            offset_x, offset_y = [int(a) for a in file.split("offset_")[-1].replace(".png","").split("_")][0] if "offset_" in file else 0,0
+            center = int(im.size[1]/2) + offset_y
+            c = [[ pix[p,center][0], pix[p,center][1], pix[p,center][2], 255 ] for p in range(offset_x,im.size[0]-offset_x, incr)][1:]
             d = np.array( [ i for s in  [ np.linspace(k[0], k[1], maxcolors) for k in [[k,l] for k,l in zip(c[0:-1], c[1:])] ] for i in s ] )
             d /= np.max([np.max(a) for a in d])
             name = file.replace(".png","")
+            if "offset_" in name:
+                name = name.split("_offset_")[0]
             if name not in plt.colormaps():
                 if not silent:
                     print(f"Registering Colormap {name}")
@@ -49,10 +53,10 @@ def generate_colormaps(inputpath = os.path.join(os.path.dirname(os.path.realpath
             
 
 # TODO: change to use all of matplotlibs colormaps!
-def plot_colormaps(pwd, maps, mode):
-    print(f"Plotting from {pwd}")
+def plot_colormaps(maps, mode, fp):
+    print(f"Plotting {fp}")
     print(f"Plotting Colormaps:\n{maps}")
-    data = [a.reshape((51,1000)) for a in np.loadtxt(os.path.join(pwd,"colormaps/data.txt"), delimiter=' ', unpack=True, comments  = ["#","None","t","Time"])]
+    data = [a.reshape((51,1000)) for a in np.loadtxt(fp, delimiter=' ', unpack=True, comments  = ["#","None","t","Time"])]
     size = [int(np.ceil(np.sqrt(len(maps)))),int(np.ceil(np.sqrt(len(maps))))]
     if size[0]*(size[1]-1) <= len(maps):
         size[1] -= 1
@@ -82,4 +86,5 @@ if __name__ == "__main__":
     generate_colormaps(silent=False)
     
     plot_which = [a for a in plt.colormaps() if not a.endswith("_r")]
-    plot_colormaps(pwd,plot_which,"contour")
+    file_to_plot = input("File to plot: ") or os.path.join(pwd,"colormaps/data.txt")
+    plot_colormaps(plot_which,"contour", file_to_plot)

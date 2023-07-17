@@ -16,13 +16,12 @@ todo:
 - make pretty, reuse functionality.py and extend it
 - remove interpolator, unnecessary
 """
-def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", ranges = "auto", indices = "auto", shading = "gouraud", use_cbs = True, logscale = False, colorrepeat = 1, levels = "mesh", mode = "matrix"):
+def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", ranges = "auto", indices = "auto", shading = "gouraud", use_cbs = True, logscale = False, colorrepeat = 1, levels = "mesh", mode = "matrix", dpi = 400, plot_zeros = False, print=print):
     print(f"Plotting {totalpath}")
     print(f"Colormap used: {cmap}")
-    print(f"Format used: {fformat}")
+    print(f"Format used: {fformat} at {dpi} dpi")
 
     if not ranges == "auto":
-        #ranges_x_min, ranges_x_max, ranges_y_min, ranges_y_max, ranges_z_min, ranges_z_max = _input_to_tuple(ranges, delimiter = ":")
         ranges = ranges.split(",")
         print(f"Ranges used: X from {ranges[0]} to {ranges[1]}; Y from {ranges[2]} to {ranges[3]}; Z from {ranges[4]} to {ranges[5]}")
 
@@ -32,10 +31,6 @@ def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", rang
 
     # Data
     print(f"Reading files...")
-    #datapoints = 400.0
-    #max_sourcepoints = datapoints*datapoints
-    #if interpolate:
-    #    print(f"Interpolating the values onto a {int(datapoints)}x{int(datapoints)} Grid first...")
 
     totaldata = {}
     finalpath = totalpath.split(";")[0]
@@ -45,7 +40,7 @@ def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", rang
             comments = header
         else:
             comments = ["#"] + list(string.ascii_letters)
-        print(comments)
+        #print(comments)
         delim = _guess_delimiter(path)
         if delim == "auto":
             try:
@@ -72,25 +67,7 @@ def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", rang
 
         if colorrepeat > 1:
             v = [ np.min(vv) + np.mod((vv-np.min(vv))/(np.max(vv)-np.min(vv))*colorrepeat,1.0)*np.max(vv) for vv in v ]
-        #if interpolate:
-        #    nv = []
-        #    ranges = (np.min(x), np.max(x), np.min(y), np.max(y))
-        #    print(f"Interpolation Ranges are: {ranges}")
-        #    xnew = np.arange(ranges[0], ranges[1], (ranges[1]-ranges[0])/datapoints)
-        #    ynew = np.arange(ranges[2], ranges[3], (ranges[3]-ranges[2])/datapoints)
-        #    if len(x) > max_sourcepoints:
-        #        cutoff_it = floor(len(x)/max_sourcepoints)
-        #        x = x[::cutoff_it]
-        #        y = y[::cutoff_it]
-        #    for i,vv in enumerate(v):
-        #        if len(vv) > max_sourcepoints:
-        #            vv = vv[::cutoff_it]
-        #        print(f"Interpolating Dataset {i} (length: {len(vv)})... ",end="",flush=True)
-        #        f = interpolator(x,y,vv,copy=False)
-        #        print("Appending Result...")
-        #        nv.append(f(xnew, ynew)).flatten()
-        #    v = nv
-        # If resizing is possible, use equidistant plot, else use tripoint method
+
         n,m = 0,0
         if mode == "matrix":
             n = len(set(x))
@@ -103,18 +80,24 @@ def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", rang
                     m = len(set(y))
                     n = int(len(v[0])/m)
                 # Reshape
-                y = np.reshape(y,(m,n))
-                x = np.reshape(x,(m,n))
-                v = [np.reshape(a,(m,n)) for a in v]
-                print(f"Matrix Dimensions are {n}x{m}")
-            else:
-                plot_method = "tricolor"
+                try:
+                    y = np.reshape(y,(m,n))
+                    x = np.reshape(x,(m,n))
+                    v = [np.reshape(a,(m,n)) for a in v]
+                    print(f"Matrix Dimensions are {n}x{m}")
+                except:
+                    print(f"Could not reshape input to dimensions {n}x{m}")
+                    plot_method = "tricolor"
             print(f"Plot Method is {plot_method}")
 
-        totaldata[path] = {"header" : header[-len(v):], "x" : x, "y" : y, "v" : v, "n" : n, "m" : m, "ranges" : ranges }
+        header = header[-len(v):]
+        if not plot_zeros:
+            v,header = list(zip(*[(arr,h) for arr,h in zip(v,header) if arr.any()]))
+        totaldata[path] = {"header" : header, "x" : x, "y" : y, "v" : v, "n" : n, "m" : m, "ranges" : ranges }
 
     if use_cbs and len(ranges) > 4 and any([ranges[4] != "auto", ranges[5] != "auto"]):
         print("Warning! -cbs is used, which will make --ranges=,,,,z0,z1 be ignored!!") 
+
 
     totalsize = sum(len(a["v"]) for a in totaldata.values())
     
@@ -176,7 +159,7 @@ def plot_matrix(totalpath, cmap = "turbo", delim = "auto", fformat = "pdf", rang
         plt.show()
     else:
         print("Saving to " + finalpath.replace(".txt","."+fformat))
-        plt.savefig(finalpath.replace(".txt","."+fformat),dpi = 400)
+        plt.savefig(finalpath.replace(".txt","."+fformat),dpi = dpi)
 
 if __name__ == "__main__":
     path = dirname(realpath(__file__))
@@ -189,10 +172,11 @@ if __name__ == "__main__":
     indices = "auto" if not any(["--indices=" in a for a in argv]) else [ a.replace("--indices=","") for a in argv if "--indices=" in a ][0]
     shading = "gouraud" if not any(["--shading=" in a for a in argv]) else [ a.replace("--shading=","") for a in argv if "--shading=" in a ][0]
     levels = "mesh" if not any(["--levels=" in a for a in argv]) else [ int(a.replace("--levels=","")) for a in argv if "--levels=" in a ][0]
+    dpi = 400 if not any(["--dpi=" in a for a in argv]) else [ int(a.replace("--dpi=","")) for a in argv if "--dpi=" in a ][0]
     use_cbs = "-cbs" in argv
     logscale = "-ls" in argv
     colorrepeat = 1 if not any(["--crepeat=" in a for a in argv]) else [ int(a.replace("--crepeat=","")) for a in argv if "--crepeat=" in a ][0]
     # Readin Method. "squared" will use np.loadtxt, "interpolate" will use open() and range through the different blocks, interpolating the results onto an NxN matrix, where N is the maximum dimension of either X or Y
     interpolate = "-interpolate" in argv
 
-    plot_matrix(totalpath, colormap, delim, fformat, ranges, indices, shading, use_cbs, logscale, colorrepeat, levels, "matrix")
+    plot_matrix(totalpath, colormap, delim, fformat, ranges, indices, shading, use_cbs, logscale, colorrepeat, levels, "matrix", dpi)
