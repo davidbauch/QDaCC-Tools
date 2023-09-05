@@ -116,11 +116,18 @@ class Bloch:
         Positions of +z and -z labels respectively.
     """
     def __init__(self, fig=None, axes=None, view=None, figsize=None,
-                 background=False):
+                 background=False, other = None):
         # Figure and axes
         self.fig = fig
         self._ext_fig = fig is not None
         self.axes = axes
+        self.parent_sphere = other
+        self.parent_scaling = 1.0
+        if self.parent_sphere is not None:
+            self.fig = self.parent_sphere.fig
+            self.axes = self.parent_sphere.axes
+            self.parent_scaling = self.parent_sphere.parent_scaling*0.5
+
         # Background axes, default = False
         self.background = background
         # The size of the figure in inches, default = [5,5].
@@ -567,32 +574,35 @@ class Bloch:
         # Clearing the axes is horrifically slow and loses a lot of the
         # axes state, but matplotlib doesn't seem to provide a better way
         # to redraw Axes3D. :/
-        self.axes.clear()
-        self.axes.grid(False)
-        if self.background:
-            self.axes.set_xlim3d(-1.3, 1.3)
-            self.axes.set_ylim3d(-1.3, 1.3)
-            self.axes.set_zlim3d(-1.3, 1.3)
-        else:
-            self.axes.set_axis_off()
-            self.axes.set_xlim3d(-0.7, 0.7)
-            self.axes.set_ylim3d(-0.7, 0.7)
-            self.axes.set_zlim3d(-0.7, 0.7)
-        # Manually set aspect ratio to fit a square bounding box.
-        # Matplotlib did this stretching for < 3.3.0, but not above.
-        if parse_version(matplotlib.__version__) >= parse_version('3.3'):
-            self.axes.set_box_aspect((1, 1, 1))
-        if not self.background:
-            self.plot_axes()
+        if self.parent_sphere is None:
+            self.axes.clear()
+            self.axes.grid(False)
+            if self.background:
+                self.axes.set_xlim3d(-1.3, 1.3)
+                self.axes.set_ylim3d(-1.3, 1.3)
+                self.axes.set_zlim3d(-1.3, 1.3)
+            else:
+                self.axes.set_axis_off()
+                self.axes.set_xlim3d(-0.7, 0.7)
+                self.axes.set_ylim3d(-0.7, 0.7)
+                self.axes.set_zlim3d(-0.7, 0.7)
+            # Manually set aspect ratio to fit a square bounding box.
+            # Matplotlib did this stretching for < 3.3.0, but not above.
+            if parse_version(matplotlib.__version__) >= parse_version('3.3'):
+                self.axes.set_box_aspect((1, 1, 1))
+            if not self.background:
+                self.plot_axes()
 
-        self.plot_back()
-        self.plot_points(trail_points)
+        if self.parent_sphere is None:
+            self.plot_back()
+            self.plot_points(trail_points)
         self.plot_vectors()
         self.plot_lines()
-        self.plot_arcs()
-        self.plot_front()
-        self.plot_axes_labels()
-        self.plot_annotations()
+        if self.parent_sphere is None:
+            self.plot_arcs()
+            self.plot_front()
+            self.plot_axes_labels()
+            self.plot_annotations()
         # Trigger an update of the Bloch sphere if it is already shown:
         self.fig.canvas.draw()
 
@@ -675,15 +685,25 @@ class Bloch:
                   self.axes.zaxis.get_ticklabels()):
             a.set_visible(False)
 
+    def get_origin(self):
+        if self.parent_sphere is None:
+            return self.vectors
+        return [vec+vecparent for vec,vecparent in zip(self.vectors, self.parent_sphere.get_origin())]
+
     def plot_vectors(self):
         if isinstance(self.colormap_data, str):
             self.colormap_data = plt.get_cmap(self.colormap_data)
+        # Calculate parent origins
+        if self.parent_sphere is not None:
+            origin = self.get_origin()
+        else:
+            origin = [0,0,0]
         # -X and Y data are switched for plotting purposes
         for k in range(len(self.vectors)):
 
-            xs3d = self.vectors[k][1] * array([0, 1])
-            ys3d = -self.vectors[k][0] * array([0, 1])
-            zs3d = self.vectors[k][2] * array([0, 1])
+            xs3d = (origin[1] + self.vectors[k][1]) * array([0, 1])
+            ys3d = -(origin[0] + self.vectors[k][0]) * array([0, 1])
+            zs3d = (origin[2] + self.vectors[k][2]) * array([0, 1])
 
             color = self.colormap_data(k/len(self.trajectory))# self.vector_color[mod(k, len(self.vector_color))]
             alpha = self.vector_alpha[k]
@@ -735,56 +755,6 @@ class Bloch:
 
                 # Add the LineCollection to the axes
                 self.axes.add_collection3d(lc)
-        return
-        # -X and Y data are switched for plotting purposes
-        for k in range(len(self.points)):
-            num = len(self.points[k][0])
-            dist = [sqrt(self.points[k][0][j] ** 2 +
-                         self.points[k][1][j] ** 2 +
-                         self.points[k][2][j] ** 2) for j in range(num)]
-            if any(abs(dist - dist[0]) / dist[0] > 1e-12):
-                # combine arrays so that they can be sorted together
-                zipped = list(zip(dist, range(num)))
-                zipped.sort()  # sort rates from lowest to highest
-                dist, indperm = zip(*zipped)
-                indperm = array(indperm)
-            else:
-                indperm = arange(num)
-            if self.point_style[k] == 's':
-                self.axes.scatter(
-                    real(self.points[k][1][indperm]),
-                    - real(self.points[k][0][indperm]),
-                    real(self.points[k][2][indperm]),
-                    s=self.point_size[mod(k, len(self.point_size))],
-                    alpha=self.point_alpha[k],
-                    edgecolor=None,
-                    zdir='z',
-                    color=self.point_color[mod(k, len(self.point_color))],
-                    marker=self.point_marker[mod(k, len(self.point_marker))])
-
-            elif self.point_style[k] == 'm':
-                pnt_colors = array(self.point_color *
-                                   int(ceil(num / float(
-                                       len(self.point_color)))))
-
-                pnt_colors = pnt_colors[0:num]
-                pnt_colors = list(pnt_colors[indperm])
-                marker = self.point_marker[mod(k, len(self.point_marker))]
-                s = self.point_size[mod(k, len(self.point_size))]
-                self.axes.scatter(real(self.points[k][1][indperm]),
-                                  -real(self.points[k][0][indperm]),
-                                  real(self.points[k][2][indperm]),
-                                  s=s, alpha=self.point_alpha[k],
-                                  edgecolor=None, zdir='z',
-                                  color=pnt_colors, marker=marker)
-
-            elif self.point_style[k] == 'l':
-                color = self.point_color[mod(k, len(self.point_color))]
-                self.axes.plot(real(self.points[k][1]),
-                               -real(self.points[k][0]),
-                               real(self.points[k][2]),
-                               alpha=self.point_alpha[k],
-                               zdir='z', color=color)
 
     def plot_annotations(self):
         # -X and Y data are switched for plotting purposes

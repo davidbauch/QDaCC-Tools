@@ -5,7 +5,7 @@ import matplotlib.colors as colors
 import numpy as np
 from math import floor,ceil
 
-def generate_colormaps(inputpath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"colormaps/png"), maxcolors = 100, silent = True):
+def generate_colormaps(inputpath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"colormaps/png"), maxcolors = 100, silent = True, generate_gnuplot = False):
     if not silent:
         print(f"Generating colormaps for input path {inputpath}")
     for file in os.listdir(inputpath):
@@ -18,27 +18,30 @@ def generate_colormaps(inputpath = os.path.join(os.path.dirname(os.path.realpath
             incr = int(max(1.0,floor(im.size[0]/maxcolors)))
             if not silent:
                 print("Image size: " + str(im.size) + " -> Color increment is " +str(incr))  # Get the width and hight of the image for iterating over
-            #counter = 0
-            # Gnuplot Color Palette
-            #with open(os.path.join(outputpath,"colormaps/gnuplot", file.replace(".png",".pal")),"w") as f:
-            #    print("set palette defined (",file = f, end = "")
-            #    last = ""
-            #    for p in range(0,im.size[0], incr):
-            #        pixcolor = "{0:02x}".format(pix[p,0][0]) + "{0:02x}".format(pix[p,0][1]) + "{0:02x}".format(pix[p,0][2])
-            #        if (pixcolor != last):
-            #            if (last != ""):
-            #                print(" ,\\",file=f)
-            #            print( str(counter) + " '#" + pixcolor + "'" , file=f, end="")
-            #            last = pixcolor
-            #            counter+=1
-            #    print(" )",file=f)
-
-            # Python Color Palette   
+            
             offset_x, offset_y = [int(a) for a in file.split("offset_")[-1].replace(".png","").split("_")][0] if "offset_" in file else 0,0
             center = int(im.size[1]/2) + offset_y
             c = [[ pix[p,center][0], pix[p,center][1], pix[p,center][2], 255 ] for p in range(offset_x,im.size[0]-offset_x, incr)][1:]
             d = np.array( [ i for s in  [ np.linspace(k[0], k[1], maxcolors) for k in [[k,l] for k,l in zip(c[0:-1], c[1:])] ] for i in s ] )
             d /= np.max([np.max(a) for a in d])
+            
+            if generate_gnuplot:
+                counter = 0
+                # Gnuplot Color Palette
+                with open(os.path.join(inputpath, file.replace(".png",".pal")),"w") as f:
+                    print("set palette defined (",file = f, end = "")
+                    last = ""
+                    for p in d:
+                        pixcolor = "{0:02x}".format(int(255*p[0])) + "{0:02x}".format(int(255*p[1])) + "{0:02x}".format(int(255*p[2]))
+                        if (pixcolor != last):
+                            if (last != ""):
+                                print(" ,\\",file=f)
+                            print( str(counter) + " '#" + pixcolor + "'" , file=f, end="")
+                            last = pixcolor
+                            counter+=1
+                    print(" )",file=f)
+
+            # Python Color Palette   
             name = file.replace(".png","")
             if "offset_" in name:
                 name = name.split("_offset_")[0]

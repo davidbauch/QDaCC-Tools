@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowDDPyFg.ui'
+## Form generated from reading UI file 'main_windowmjBHZT.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.1
 ##
@@ -49,6 +49,12 @@ class Ui_MainWindow(object):
         self.tab_system.setObjectName(u"tab_system")
         self.gridLayout_2 = QGridLayout(self.tab_system)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.input_initial_state = HoverButton(self.tab_system)
+        self.input_initial_state.setObjectName(u"input_initial_state")
+        self.input_initial_state.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_2.addWidget(self.input_initial_state, 11, 3, 1, 1)
+
         self.label_title_qdsystem = QLabel(self.tab_system)
         self.label_title_qdsystem.setObjectName(u"label_title_qdsystem")
         self.label_title_qdsystem.setMinimumSize(QSize(0, 40))
@@ -56,63 +62,14 @@ class Ui_MainWindow(object):
         self.label_title_qdsystem.setFrameShape(QFrame.NoFrame)
         self.label_title_qdsystem.setFrameShadow(QFrame.Plain)
 
-        self.gridLayout_2.addWidget(self.label_title_qdsystem, 0, 4, 1, 1)
-
-        self.label_5 = QLabel(self.tab_system)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setMinimumSize(QSize(0, 40))
-        self.label_5.setMaximumSize(QSize(200, 40))
-
-        self.gridLayout_2.addWidget(self.label_5, 1, 4, 1, 1)
+        self.gridLayout_2.addWidget(self.label_title_qdsystem, 0, 5, 1, 1)
 
         self.button_add_electronic_state = HoverButton(self.tab_system)
         self.button_add_electronic_state.setObjectName(u"button_add_electronic_state")
         self.button_add_electronic_state.setMinimumSize(QSize(0, 40))
         self.button_add_electronic_state.setMaximumSize(QSize(200, 40))
 
-        self.gridLayout_2.addWidget(self.button_add_electronic_state, 2, 4, 1, 1)
-
-        self.button_add_cavity = HoverButton(self.tab_system)
-        self.button_add_cavity.setObjectName(u"button_add_cavity")
-        self.button_add_cavity.setMinimumSize(QSize(0, 40))
-        self.button_add_cavity.setMaximumSize(QSize(200, 40))
-
-        self.gridLayout_2.addWidget(self.button_add_cavity, 3, 4, 1, 1)
-
-        self.button_add_optical_pulse = HoverButton(self.tab_system)
-        self.button_add_optical_pulse.setObjectName(u"button_add_optical_pulse")
-        self.button_add_optical_pulse.setMinimumSize(QSize(0, 40))
-        self.button_add_optical_pulse.setMaximumSize(QSize(200, 40))
-
-        self.gridLayout_2.addWidget(self.button_add_optical_pulse, 4, 4, 1, 1)
-
-        self.button_add_electronic_shift = HoverButton(self.tab_system)
-        self.button_add_electronic_shift.setObjectName(u"button_add_electronic_shift")
-        self.button_add_electronic_shift.setMinimumSize(QSize(0, 40))
-        self.button_add_electronic_shift.setMaximumSize(QSize(200, 40))
-        self.button_add_electronic_shift.setMouseTracking(True)
-
-        self.gridLayout_2.addWidget(self.button_add_electronic_shift, 5, 4, 1, 1)
-
-        self.list_components = QListView(self.tab_system)
-        self.list_components.setObjectName(u"list_components")
-        self.list_components.setMinimumSize(QSize(0, 40))
-        self.list_components.setMaximumSize(QSize(200, 16777215))
-        self.list_components.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.list_components.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.list_components.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.list_components.setDefaultDropAction(Qt.IgnoreAction)
-        self.list_components.setViewMode(QListView.ListMode)
-
-        self.gridLayout_2.addWidget(self.list_components, 6, 4, 1, 1)
-
-        self.button_modify_edit = HoverButton(self.tab_system)
-        self.button_modify_edit.setObjectName(u"button_modify_edit")
-        self.button_modify_edit.setMinimumSize(QSize(0, 40))
-        self.button_modify_edit.setMaximumSize(QSize(200, 40))
-        self.button_modify_edit.setFlat(False)
-
-        self.gridLayout_2.addWidget(self.button_modify_edit, 7, 4, 1, 1)
+        self.gridLayout_2.addWidget(self.button_add_electronic_state, 2, 5, 1, 1)
 
         self.button_modify_delete = HoverButton(self.tab_system)
         self.button_modify_delete.setObjectName(u"button_modify_delete")
@@ -120,15 +77,30 @@ class Ui_MainWindow(object):
         self.button_modify_delete.setMaximumSize(QSize(200, 40))
         self.button_modify_delete.setFlat(False)
 
-        self.gridLayout_2.addWidget(self.button_modify_delete, 8, 4, 1, 1)
+        self.gridLayout_2.addWidget(self.button_modify_delete, 8, 5, 1, 1)
 
-        self.button_modify_clear = HoverButton(self.tab_system)
-        self.button_modify_clear.setObjectName(u"button_modify_clear")
-        self.button_modify_clear.setMinimumSize(QSize(0, 40))
-        self.button_modify_clear.setMaximumSize(QSize(200, 40))
-        self.button_modify_clear.setFlat(False)
+        self.label_output_system = QLabel(self.tab_system)
+        self.label_output_system.setObjectName(u"label_output_system")
+        self.label_output_system.setMinimumSize(QSize(0, 0))
+        self.label_output_system.setAcceptDrops(True)
+        self.label_output_system.setFrameShape(QFrame.NoFrame)
+        self.label_output_system.setFrameShadow(QFrame.Plain)
 
-        self.gridLayout_2.addWidget(self.button_modify_clear, 9, 4, 1, 1)
+        self.gridLayout_2.addWidget(self.label_output_system, 0, 0, 11, 5)
+
+        self.button_add_optical_pulse = HoverButton(self.tab_system)
+        self.button_add_optical_pulse.setObjectName(u"button_add_optical_pulse")
+        self.button_add_optical_pulse.setMinimumSize(QSize(0, 40))
+        self.button_add_optical_pulse.setMaximumSize(QSize(200, 40))
+
+        self.gridLayout_2.addWidget(self.button_add_optical_pulse, 4, 5, 1, 1)
+
+        self.label_5 = QLabel(self.tab_system)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setMinimumSize(QSize(0, 40))
+        self.label_5.setMaximumSize(QSize(200, 40))
+
+        self.gridLayout_2.addWidget(self.label_5, 1, 5, 1, 1)
 
         self.input_draw_details = QCheckBox(self.tab_system)
         self.input_draw_details.setObjectName(u"input_draw_details")
@@ -136,32 +108,7 @@ class Ui_MainWindow(object):
         self.input_draw_details.setMaximumSize(QSize(200, 40))
         self.input_draw_details.setChecked(False)
 
-        self.gridLayout_2.addWidget(self.input_draw_details, 10, 4, 1, 1)
-
-        self.slider_state_separator = QSlider(self.tab_system)
-        self.slider_state_separator.setObjectName(u"slider_state_separator")
-        self.slider_state_separator.setMinimumSize(QSize(0, 40))
-        self.slider_state_separator.setMinimum(1)
-        self.slider_state_separator.setMaximum(100)
-        self.slider_state_separator.setOrientation(Qt.Horizontal)
-
-        self.gridLayout_2.addWidget(self.slider_state_separator, 11, 0, 1, 1)
-
-        self.slider_state_grouping = QSlider(self.tab_system)
-        self.slider_state_grouping.setObjectName(u"slider_state_grouping")
-        self.slider_state_grouping.setMinimumSize(QSize(0, 40))
-        self.slider_state_grouping.setMinimum(1)
-        self.slider_state_grouping.setMaximum(100)
-        self.slider_state_grouping.setValue(50)
-        self.slider_state_grouping.setOrientation(Qt.Horizontal)
-
-        self.gridLayout_2.addWidget(self.slider_state_grouping, 11, 1, 1, 1)
-
-        self.input_initial_state = HoverButton(self.tab_system)
-        self.input_initial_state.setObjectName(u"input_initial_state")
-        self.input_initial_state.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_2.addWidget(self.input_initial_state, 11, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.input_draw_details, 10, 5, 1, 1)
 
         self.textinput_initial_state = QLineEdit(self.tab_system)
         self.textinput_initial_state.setObjectName(u"textinput_initial_state")
@@ -174,7 +121,69 @@ class Ui_MainWindow(object):
         self.textinput_initial_state.setFrame(True)
         self.textinput_initial_state.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_2.addWidget(self.textinput_initial_state, 11, 3, 1, 1)
+        self.gridLayout_2.addWidget(self.textinput_initial_state, 11, 4, 1, 1)
+
+        self.slider_state_grouping = QSlider(self.tab_system)
+        self.slider_state_grouping.setObjectName(u"slider_state_grouping")
+        self.slider_state_grouping.setMinimumSize(QSize(0, 40))
+        self.slider_state_grouping.setMinimum(1)
+        self.slider_state_grouping.setMaximum(100)
+        self.slider_state_grouping.setValue(50)
+        self.slider_state_grouping.setOrientation(Qt.Horizontal)
+
+        self.gridLayout_2.addWidget(self.slider_state_grouping, 11, 2, 1, 1)
+
+        self.button_modify_edit = HoverButton(self.tab_system)
+        self.button_modify_edit.setObjectName(u"button_modify_edit")
+        self.button_modify_edit.setMinimumSize(QSize(0, 40))
+        self.button_modify_edit.setMaximumSize(QSize(200, 40))
+        self.button_modify_edit.setFlat(False)
+
+        self.gridLayout_2.addWidget(self.button_modify_edit, 7, 5, 1, 1)
+
+        self.button_add_electronic_shift = HoverButton(self.tab_system)
+        self.button_add_electronic_shift.setObjectName(u"button_add_electronic_shift")
+        self.button_add_electronic_shift.setMinimumSize(QSize(0, 40))
+        self.button_add_electronic_shift.setMaximumSize(QSize(200, 40))
+        self.button_add_electronic_shift.setMouseTracking(True)
+
+        self.gridLayout_2.addWidget(self.button_add_electronic_shift, 5, 5, 1, 1)
+
+        self.slider_state_separator = QSlider(self.tab_system)
+        self.slider_state_separator.setObjectName(u"slider_state_separator")
+        self.slider_state_separator.setMinimumSize(QSize(0, 40))
+        self.slider_state_separator.setMinimum(1)
+        self.slider_state_separator.setMaximum(100)
+        self.slider_state_separator.setOrientation(Qt.Horizontal)
+
+        self.gridLayout_2.addWidget(self.slider_state_separator, 11, 0, 1, 1)
+
+        self.button_modify_clear = HoverButton(self.tab_system)
+        self.button_modify_clear.setObjectName(u"button_modify_clear")
+        self.button_modify_clear.setMinimumSize(QSize(0, 40))
+        self.button_modify_clear.setMaximumSize(QSize(200, 40))
+        self.button_modify_clear.setFlat(False)
+
+        self.gridLayout_2.addWidget(self.button_modify_clear, 9, 5, 1, 1)
+
+        self.list_components = QListView(self.tab_system)
+        self.list_components.setObjectName(u"list_components")
+        self.list_components.setMinimumSize(QSize(0, 40))
+        self.list_components.setMaximumSize(QSize(200, 16777215))
+        self.list_components.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.list_components.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.list_components.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.list_components.setDefaultDropAction(Qt.IgnoreAction)
+        self.list_components.setViewMode(QListView.ListMode)
+
+        self.gridLayout_2.addWidget(self.list_components, 6, 5, 1, 1)
+
+        self.button_add_cavity = HoverButton(self.tab_system)
+        self.button_add_cavity.setObjectName(u"button_add_cavity")
+        self.button_add_cavity.setMinimumSize(QSize(0, 40))
+        self.button_add_cavity.setMaximumSize(QSize(200, 40))
+
+        self.gridLayout_2.addWidget(self.button_add_cavity, 3, 5, 1, 1)
 
         self.button_next_tab_system_to_config = QPushButton(self.tab_system)
         self.button_next_tab_system_to_config.setObjectName(u"button_next_tab_system_to_config")
@@ -182,16 +191,16 @@ class Ui_MainWindow(object):
         self.button_next_tab_system_to_config.setMaximumSize(QSize(200, 40))
         self.button_next_tab_system_to_config.setCheckable(False)
 
-        self.gridLayout_2.addWidget(self.button_next_tab_system_to_config, 11, 4, 1, 1)
+        self.gridLayout_2.addWidget(self.button_next_tab_system_to_config, 11, 5, 1, 1)
 
-        self.label_output_system = QLabel(self.tab_system)
-        self.label_output_system.setObjectName(u"label_output_system")
-        self.label_output_system.setMinimumSize(QSize(0, 0))
-        self.label_output_system.setAcceptDrops(True)
-        self.label_output_system.setFrameShape(QFrame.NoFrame)
-        self.label_output_system.setFrameShadow(QFrame.Plain)
+        self.slider_state_x_seperation = QSlider(self.tab_system)
+        self.slider_state_x_seperation.setObjectName(u"slider_state_x_seperation")
+        self.slider_state_x_seperation.setMinimumSize(QSize(0, 40))
+        self.slider_state_x_seperation.setMinimum(1)
+        self.slider_state_x_seperation.setMaximum(100)
+        self.slider_state_x_seperation.setOrientation(Qt.Horizontal)
 
-        self.gridLayout_2.addWidget(self.label_output_system, 0, 0, 11, 4)
+        self.gridLayout_2.addWidget(self.slider_state_x_seperation, 11, 1, 1, 1)
 
         self.tabWidget.addTab(self.tab_system, "")
         self.tab_environment = QWidget()
@@ -702,12 +711,6 @@ class Ui_MainWindow(object):
 
         self.gridLayout_4.addWidget(self.label_title_time, 0, 0, 1, 2)
 
-        self.button_timeline_force_calculate = QPushButton(self.tab_timeline)
-        self.button_timeline_force_calculate.setObjectName(u"button_timeline_force_calculate")
-        self.button_timeline_force_calculate.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_4.addWidget(self.button_timeline_force_calculate, 16, 1, 1, 1)
-
         self.textinput_time_endtime = QLineEdit(self.tab_timeline)
         self.textinput_time_endtime.setObjectName(u"textinput_time_endtime")
         self.textinput_time_endtime.setMinimumSize(QSize(0, 40))
@@ -716,13 +719,6 @@ class Ui_MainWindow(object):
         self.textinput_time_endtime.setAlignment(Qt.AlignCenter)
 
         self.gridLayout_4.addWidget(self.textinput_time_endtime, 2, 1, 1, 1)
-
-        self.input_timeline_enable_phonons = QCheckBox(self.tab_timeline)
-        self.input_timeline_enable_phonons.setObjectName(u"input_timeline_enable_phonons")
-        self.input_timeline_enable_phonons.setMinimumSize(QSize(0, 40))
-        self.input_timeline_enable_phonons.setChecked(True)
-
-        self.gridLayout_4.addWidget(self.input_timeline_enable_phonons, 16, 0, 1, 1)
 
         self.label_11 = QLabel(self.tab_timeline)
         self.label_11.setObjectName(u"label_11")
@@ -1964,18 +1960,6 @@ class Ui_MainWindow(object):
 
         self.gridLayout_12.addWidget(self.button_generate_copy, 4, 6, 1, 2)
 
-        self.button_run_kill = QPushButton(self.tab_generate)
-        self.button_run_kill.setObjectName(u"button_run_kill")
-        self.button_run_kill.setEnabled(True)
-        self.button_run_kill.setMinimumSize(QSize(0, 40))
-        self.button_run_kill.setFont(font1)
-        self.button_run_kill.setStyleSheet(u"QPushButton {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #f4331e, stop:0.91 #450f0a); color: #ffffff;}\n"
-"QPushButton::hover {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #a62214, stop:0.91 #450f0a); color: #ffffff;}")
-        self.button_run_kill.setCheckable(False)
-        self.button_run_kill.setChecked(False)
-
-        self.gridLayout_12.addWidget(self.button_run_kill, 10, 6, 1, 2)
-
         self.button_run_program = QPushButton(self.tab_generate)
         self.button_run_program.setObjectName(u"button_run_program")
         self.button_run_program.setEnabled(True)
@@ -2015,12 +1999,23 @@ class Ui_MainWindow(object):
         self.button_run_external.setEnabled(True)
         self.button_run_external.setMinimumSize(QSize(0, 40))
         self.button_run_external.setFont(font1)
-        self.button_run_external.setStyleSheet(u"QPushButton {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #1e6cf4, stop:0.91 #133e8d); color: #ffffff;}\n"
-"QPushButton::hover {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #5d94f5, stop:0.91 #133e8d); color: #ffffff;}")
+        self.button_run_external.setStyleSheet(u"QPushButton {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #888888, stop:0.91 black); color: #aaaaaa;}")
         self.button_run_external.setCheckable(False)
         self.button_run_external.setChecked(False)
 
         self.gridLayout_12.addWidget(self.button_run_external, 11, 6, 1, 2)
+
+        self.button_run_kill = QPushButton(self.tab_generate)
+        self.button_run_kill.setObjectName(u"button_run_kill")
+        self.button_run_kill.setEnabled(True)
+        self.button_run_kill.setMinimumSize(QSize(0, 40))
+        self.button_run_kill.setFont(font1)
+        self.button_run_kill.setStyleSheet(u"QPushButton {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #f4331e, stop:0.91 #450f0a); color: #ffffff;}\n"
+"QPushButton::hover {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #a62214, stop:0.91 #450f0a); color: #ffffff;}")
+        self.button_run_kill.setCheckable(False)
+        self.button_run_kill.setChecked(False)
+
+        self.gridLayout_12.addWidget(self.button_run_kill, 11, 4, 1, 2)
 
         self.button_run_and_plot = QPushButton(self.tab_generate)
         self.button_run_and_plot.setObjectName(u"button_run_and_plot")
@@ -2032,7 +2027,7 @@ class Ui_MainWindow(object):
         self.button_run_and_plot.setCheckable(False)
         self.button_run_and_plot.setChecked(False)
 
-        self.gridLayout_12.addWidget(self.button_run_and_plot, 11, 4, 1, 2)
+        self.gridLayout_12.addWidget(self.button_run_and_plot, 10, 6, 1, 2)
 
         self.tabWidget.addTab(self.tab_generate, "")
         self.tab_5 = QWidget()
@@ -2292,20 +2287,55 @@ class Ui_MainWindow(object):
         self.tab_8.setObjectName(u"tab_8")
         self.gridLayout_11 = QGridLayout(self.tab_8)
         self.gridLayout_11.setObjectName(u"gridLayout_11")
-        self.button_optimizer_files = HoverButton(self.tab_8)
-        self.button_optimizer_files.setObjectName(u"button_optimizer_files")
-        self.button_optimizer_files.setMinimumSize(QSize(0, 40))
+        self.textinput_optimizer_legend = QLineEdit(self.tab_8)
+        self.textinput_optimizer_legend.setObjectName(u"textinput_optimizer_legend")
+        self.textinput_optimizer_legend.setMinimumSize(QSize(0, 40))
 
-        self.gridLayout_11.addWidget(self.button_optimizer_files, 1, 2, 1, 1)
+        self.gridLayout_11.addWidget(self.textinput_optimizer_legend, 3, 3, 1, 6)
 
-        self.text_output_program_qdacc_command_sweep_display_2 = QTextBrowser(self.tab_8)
-        self.text_output_program_qdacc_command_sweep_display_2.setObjectName(u"text_output_program_qdacc_command_sweep_display_2")
-        self.text_output_program_qdacc_command_sweep_display_2.setMinimumSize(QSize(599, 200))
-        self.text_output_program_qdacc_command_sweep_display_2.setFrameShape(QFrame.NoFrame)
-        self.text_output_program_qdacc_command_sweep_display_2.setLineWrapMode(QTextEdit.NoWrap)
-        self.text_output_program_qdacc_command_sweep_display_2.setReadOnly(True)
+        self.textinput_optimizer_fitnessfunction = QLineEdit(self.tab_8)
+        self.textinput_optimizer_fitnessfunction.setObjectName(u"textinput_optimizer_fitnessfunction")
+        self.textinput_optimizer_fitnessfunction.setMinimumSize(QSize(0, 40))
 
-        self.gridLayout_11.addWidget(self.text_output_program_qdacc_command_sweep_display_2, 0, 2, 1, 7)
+        self.gridLayout_11.addWidget(self.textinput_optimizer_fitnessfunction, 9, 3, 1, 6)
+
+        self.text_output_program_qdacc_command_sweep_2 = QTextBrowser(self.tab_8)
+        self.text_output_program_qdacc_command_sweep_2.setObjectName(u"text_output_program_qdacc_command_sweep_2")
+        self.text_output_program_qdacc_command_sweep_2.setMinimumSize(QSize(599, 200))
+        self.text_output_program_qdacc_command_sweep_2.setFrameShape(QFrame.NoFrame)
+        self.text_output_program_qdacc_command_sweep_2.setReadOnly(False)
+
+        self.gridLayout_11.addWidget(self.text_output_program_qdacc_command_sweep_2, 0, 0, 5, 2)
+
+        self.textinput_optimizer_formatfunction = QLineEdit(self.tab_8)
+        self.textinput_optimizer_formatfunction.setObjectName(u"textinput_optimizer_formatfunction")
+        self.textinput_optimizer_formatfunction.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.textinput_optimizer_formatfunction, 10, 3, 1, 6)
+
+        self.textinput_optimizer_tol = QLineEdit(self.tab_8)
+        self.textinput_optimizer_tol.setObjectName(u"textinput_optimizer_tol")
+        self.textinput_optimizer_tol.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.textinput_optimizer_tol, 11, 3, 1, 6)
+
+        self.button_optimizer_files_2 = HoverButton(self.tab_8)
+        self.button_optimizer_files_2.setObjectName(u"button_optimizer_files_2")
+        self.button_optimizer_files_2.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.button_optimizer_files_2, 2, 2, 1, 1)
+
+        self.textinput_optimizer_parameter_names = QLineEdit(self.tab_8)
+        self.textinput_optimizer_parameter_names.setObjectName(u"textinput_optimizer_parameter_names")
+        self.textinput_optimizer_parameter_names.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.textinput_optimizer_parameter_names, 8, 3, 1, 6)
+
+        self.button_optimizer_get_runstring = HoverButton(self.tab_8)
+        self.button_optimizer_get_runstring.setObjectName(u"button_optimizer_get_runstring")
+        self.button_optimizer_get_runstring.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.button_optimizer_get_runstring, 5, 0, 1, 2)
 
         self.label_title_qdsystem_22 = QLabel(self.tab_8)
         self.label_title_qdsystem_22.setObjectName(u"label_title_qdsystem_22")
@@ -2316,78 +2346,39 @@ class Ui_MainWindow(object):
 
         self.gridLayout_11.addWidget(self.label_title_qdsystem_22, 13, 2, 1, 1)
 
-        self.label_title_qdsystem_17 = QLabel(self.tab_8)
-        self.label_title_qdsystem_17.setObjectName(u"label_title_qdsystem_17")
-        self.label_title_qdsystem_17.setMinimumSize(QSize(0, 40))
-        self.label_title_qdsystem_17.setMaximumSize(QSize(16777215, 40))
-        self.label_title_qdsystem_17.setFrameShape(QFrame.NoFrame)
-        self.label_title_qdsystem_17.setFrameShadow(QFrame.Plain)
+        self.button_optimizer_files = HoverButton(self.tab_8)
+        self.button_optimizer_files.setObjectName(u"button_optimizer_files")
+        self.button_optimizer_files.setMinimumSize(QSize(0, 40))
 
-        self.gridLayout_11.addWidget(self.label_title_qdsystem_17, 8, 2, 1, 1)
+        self.gridLayout_11.addWidget(self.button_optimizer_files, 1, 2, 1, 1)
 
-        self.label_title_qdsystem_6 = QLabel(self.tab_8)
-        self.label_title_qdsystem_6.setObjectName(u"label_title_qdsystem_6")
-        self.label_title_qdsystem_6.setMinimumSize(QSize(0, 40))
-        self.label_title_qdsystem_6.setMaximumSize(QSize(16777215, 40))
-        self.label_title_qdsystem_6.setFrameShape(QFrame.NoFrame)
-        self.label_title_qdsystem_6.setFrameShadow(QFrame.Plain)
+        self.label_title_qdsystem_19 = QLabel(self.tab_8)
+        self.label_title_qdsystem_19.setObjectName(u"label_title_qdsystem_19")
+        self.label_title_qdsystem_19.setMinimumSize(QSize(0, 40))
+        self.label_title_qdsystem_19.setMaximumSize(QSize(16777215, 40))
+        self.label_title_qdsystem_19.setFrameShape(QFrame.NoFrame)
+        self.label_title_qdsystem_19.setFrameShadow(QFrame.Plain)
 
-        self.gridLayout_11.addWidget(self.label_title_qdsystem_6, 5, 2, 1, 1)
+        self.gridLayout_11.addWidget(self.label_title_qdsystem_19, 10, 2, 1, 1)
+
+        self.textinput_optimizer_file_indices = QLineEdit(self.tab_8)
+        self.textinput_optimizer_file_indices.setObjectName(u"textinput_optimizer_file_indices")
+        self.textinput_optimizer_file_indices.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.textinput_optimizer_file_indices, 2, 3, 1, 6)
+
+        self.textinput_optimizer_initial_parameters = QLineEdit(self.tab_8)
+        self.textinput_optimizer_initial_parameters.setObjectName(u"textinput_optimizer_initial_parameters")
+        self.textinput_optimizer_initial_parameters.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.textinput_optimizer_initial_parameters, 4, 3, 1, 6)
 
         self.label_plot_optimizer_1 = PlotWidget(self.tab_8)
         self.label_plot_optimizer_1.setObjectName(u"label_plot_optimizer_1")
         self.label_plot_optimizer_1.setMinimumSize(QSize(300, 200))
         self.label_plot_optimizer_1.setStyleSheet(u"background-color: b")
 
-        self.gridLayout_11.addWidget(self.label_plot_optimizer_1, 10, 0, 9, 1)
-
-        self.button_optimizer_optimize = QPushButton(self.tab_8)
-        self.button_optimizer_optimize.setObjectName(u"button_optimizer_optimize")
-        self.button_optimizer_optimize.setMinimumSize(QSize(0, 40))
-        self.button_optimizer_optimize.setStyleSheet(u"QPushButton {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #288c14, stop:0.91 #0d3006); color: #ffffff;}\n"
-"QPushButton::hover {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #55ba41, stop:0.91 #0d3006); color: #ffffff;}")
-
-        self.gridLayout_11.addWidget(self.button_optimizer_optimize, 8, 0, 1, 2)
-
-        self.button_optimizer_get_runstring = HoverButton(self.tab_8)
-        self.button_optimizer_get_runstring.setObjectName(u"button_optimizer_get_runstring")
-        self.button_optimizer_get_runstring.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.button_optimizer_get_runstring, 5, 0, 1, 2)
-
-        self.button_optimizer_fitness_function = HoverButton(self.tab_8)
-        self.button_optimizer_fitness_function.setObjectName(u"button_optimizer_fitness_function")
-        self.button_optimizer_fitness_function.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.button_optimizer_fitness_function, 9, 2, 1, 1)
-
-        self.button_optimizer_runstring_to_main = HoverButton(self.tab_8)
-        self.button_optimizer_runstring_to_main.setObjectName(u"button_optimizer_runstring_to_main")
-        self.button_optimizer_runstring_to_main.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.button_optimizer_runstring_to_main, 9, 0, 1, 2)
-
-        self.button_optimizer_files_2 = HoverButton(self.tab_8)
-        self.button_optimizer_files_2.setObjectName(u"button_optimizer_files_2")
-        self.button_optimizer_files_2.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.button_optimizer_files_2, 2, 2, 1, 1)
-
-        self.label_title_qdsystem_14 = QLabel(self.tab_8)
-        self.label_title_qdsystem_14.setObjectName(u"label_title_qdsystem_14")
-        self.label_title_qdsystem_14.setMinimumSize(QSize(0, 40))
-        self.label_title_qdsystem_14.setMaximumSize(QSize(16777215, 40))
-        self.label_title_qdsystem_14.setFrameShape(QFrame.NoFrame)
-        self.label_title_qdsystem_14.setFrameShadow(QFrame.Plain)
-
-        self.gridLayout_11.addWidget(self.label_title_qdsystem_14, 4, 2, 1, 1)
-
-        self.label_plot_optimizer_3 = PlotWidget(self.tab_8)
-        self.label_plot_optimizer_3.setObjectName(u"label_plot_optimizer_3")
-        self.label_plot_optimizer_3.setMinimumSize(QSize(0, 200))
-        self.label_plot_optimizer_3.setStyleSheet(u"background-color: b")
-
-        self.gridLayout_11.addWidget(self.label_plot_optimizer_3, 18, 1, 1, 1)
+        self.gridLayout_11.addWidget(self.label_plot_optimizer_1, 10, 0, 10, 1)
 
         self.label_title_qdsystem_21 = QLabel(self.tab_8)
         self.label_title_qdsystem_21.setObjectName(u"label_title_qdsystem_21")
@@ -2407,22 +2398,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_11.addWidget(self.label_title_qdsystem_16, 3, 2, 1, 1)
 
-        self.label_title_qdsystem_19 = QLabel(self.tab_8)
-        self.label_title_qdsystem_19.setObjectName(u"label_title_qdsystem_19")
-        self.label_title_qdsystem_19.setMinimumSize(QSize(0, 40))
-        self.label_title_qdsystem_19.setMaximumSize(QSize(16777215, 40))
-        self.label_title_qdsystem_19.setFrameShape(QFrame.NoFrame)
-        self.label_title_qdsystem_19.setFrameShadow(QFrame.Plain)
+        self.button_optimizer_fitness_function = HoverButton(self.tab_8)
+        self.button_optimizer_fitness_function.setObjectName(u"button_optimizer_fitness_function")
+        self.button_optimizer_fitness_function.setMinimumSize(QSize(0, 40))
 
-        self.gridLayout_11.addWidget(self.label_title_qdsystem_19, 10, 2, 1, 1)
-
-        self.text_output_program_qdacc_command_sweep_2 = QTextBrowser(self.tab_8)
-        self.text_output_program_qdacc_command_sweep_2.setObjectName(u"text_output_program_qdacc_command_sweep_2")
-        self.text_output_program_qdacc_command_sweep_2.setMinimumSize(QSize(599, 200))
-        self.text_output_program_qdacc_command_sweep_2.setFrameShape(QFrame.NoFrame)
-        self.text_output_program_qdacc_command_sweep_2.setReadOnly(False)
-
-        self.gridLayout_11.addWidget(self.text_output_program_qdacc_command_sweep_2, 0, 0, 5, 2)
+        self.gridLayout_11.addWidget(self.button_optimizer_fitness_function, 9, 2, 1, 1)
 
         self.label_title_qdsystem_20 = QLabel(self.tab_8)
         self.label_title_qdsystem_20.setObjectName(u"label_title_qdsystem_20")
@@ -2433,66 +2413,32 @@ class Ui_MainWindow(object):
 
         self.gridLayout_11.addWidget(self.label_title_qdsystem_20, 11, 2, 1, 1)
 
-        self.label_plot_optimizer_2 = PlotWidget(self.tab_8)
-        self.label_plot_optimizer_2.setObjectName(u"label_plot_optimizer_2")
-        self.label_plot_optimizer_2.setMinimumSize(QSize(0, 200))
-        self.label_plot_optimizer_2.setStyleSheet(u"background-color: b")
+        self.label_title_qdsystem_17 = QLabel(self.tab_8)
+        self.label_title_qdsystem_17.setObjectName(u"label_title_qdsystem_17")
+        self.label_title_qdsystem_17.setMinimumSize(QSize(0, 40))
+        self.label_title_qdsystem_17.setMaximumSize(QSize(16777215, 40))
+        self.label_title_qdsystem_17.setFrameShape(QFrame.NoFrame)
+        self.label_title_qdsystem_17.setFrameShadow(QFrame.Plain)
 
-        self.gridLayout_11.addWidget(self.label_plot_optimizer_2, 10, 1, 5, 1)
+        self.gridLayout_11.addWidget(self.label_title_qdsystem_17, 8, 2, 1, 1)
 
-        self.textinput_optimizer_files = QLineEdit(self.tab_8)
-        self.textinput_optimizer_files.setObjectName(u"textinput_optimizer_files")
-        self.textinput_optimizer_files.setMinimumSize(QSize(0, 40))
+        self.text_output_program_qdacc_command_sweep_display_2 = QTextBrowser(self.tab_8)
+        self.text_output_program_qdacc_command_sweep_display_2.setObjectName(u"text_output_program_qdacc_command_sweep_display_2")
+        self.text_output_program_qdacc_command_sweep_display_2.setMinimumSize(QSize(599, 200))
+        self.text_output_program_qdacc_command_sweep_display_2.setFrameShape(QFrame.NoFrame)
+        self.text_output_program_qdacc_command_sweep_display_2.setLineWrapMode(QTextEdit.NoWrap)
+        self.text_output_program_qdacc_command_sweep_display_2.setReadOnly(True)
 
-        self.gridLayout_11.addWidget(self.textinput_optimizer_files, 1, 3, 1, 6)
+        self.gridLayout_11.addWidget(self.text_output_program_qdacc_command_sweep_display_2, 0, 2, 1, 7)
 
-        self.textinput_optimizer_file_indices = QLineEdit(self.tab_8)
-        self.textinput_optimizer_file_indices.setObjectName(u"textinput_optimizer_file_indices")
-        self.textinput_optimizer_file_indices.setMinimumSize(QSize(0, 40))
+        self.label_title_qdsystem_6 = QLabel(self.tab_8)
+        self.label_title_qdsystem_6.setObjectName(u"label_title_qdsystem_6")
+        self.label_title_qdsystem_6.setMinimumSize(QSize(0, 40))
+        self.label_title_qdsystem_6.setMaximumSize(QSize(16777215, 40))
+        self.label_title_qdsystem_6.setFrameShape(QFrame.NoFrame)
+        self.label_title_qdsystem_6.setFrameShadow(QFrame.Plain)
 
-        self.gridLayout_11.addWidget(self.textinput_optimizer_file_indices, 2, 3, 1, 6)
-
-        self.textinput_optimizer_legend = QLineEdit(self.tab_8)
-        self.textinput_optimizer_legend.setObjectName(u"textinput_optimizer_legend")
-        self.textinput_optimizer_legend.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.textinput_optimizer_legend, 3, 3, 1, 6)
-
-        self.textinput_optimizer_initial_parameters = QLineEdit(self.tab_8)
-        self.textinput_optimizer_initial_parameters.setObjectName(u"textinput_optimizer_initial_parameters")
-        self.textinput_optimizer_initial_parameters.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.textinput_optimizer_initial_parameters, 4, 3, 1, 6)
-
-        self.textinput_optimizer_parameter_bounds = QLineEdit(self.tab_8)
-        self.textinput_optimizer_parameter_bounds.setObjectName(u"textinput_optimizer_parameter_bounds")
-        self.textinput_optimizer_parameter_bounds.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.textinput_optimizer_parameter_bounds, 5, 3, 1, 6)
-
-        self.textinput_optimizer_parameter_names = QLineEdit(self.tab_8)
-        self.textinput_optimizer_parameter_names.setObjectName(u"textinput_optimizer_parameter_names")
-        self.textinput_optimizer_parameter_names.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.textinput_optimizer_parameter_names, 8, 3, 1, 6)
-
-        self.textinput_optimizer_fitnessfunction = QLineEdit(self.tab_8)
-        self.textinput_optimizer_fitnessfunction.setObjectName(u"textinput_optimizer_fitnessfunction")
-        self.textinput_optimizer_fitnessfunction.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.textinput_optimizer_fitnessfunction, 9, 3, 1, 6)
-
-        self.textinput_optimizer_formatfunction = QLineEdit(self.tab_8)
-        self.textinput_optimizer_formatfunction.setObjectName(u"textinput_optimizer_formatfunction")
-        self.textinput_optimizer_formatfunction.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.textinput_optimizer_formatfunction, 10, 3, 1, 6)
-
-        self.textinput_optimizer_tol = QLineEdit(self.tab_8)
-        self.textinput_optimizer_tol.setObjectName(u"textinput_optimizer_tol")
-        self.textinput_optimizer_tol.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_11.addWidget(self.textinput_optimizer_tol, 11, 3, 1, 6)
+        self.gridLayout_11.addWidget(self.label_title_qdsystem_6, 5, 2, 1, 1)
 
         self.textinput_optimizer_eps = QLineEdit(self.tab_8)
         self.textinput_optimizer_eps.setObjectName(u"textinput_optimizer_eps")
@@ -2500,17 +2446,81 @@ class Ui_MainWindow(object):
 
         self.gridLayout_11.addWidget(self.textinput_optimizer_eps, 12, 3, 1, 6)
 
+        self.textinput_optimizer_parameter_bounds = QLineEdit(self.tab_8)
+        self.textinput_optimizer_parameter_bounds.setObjectName(u"textinput_optimizer_parameter_bounds")
+        self.textinput_optimizer_parameter_bounds.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.textinput_optimizer_parameter_bounds, 5, 3, 1, 6)
+
+        self.textinput_optimizer_files = QLineEdit(self.tab_8)
+        self.textinput_optimizer_files.setObjectName(u"textinput_optimizer_files")
+        self.textinput_optimizer_files.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.textinput_optimizer_files, 1, 3, 1, 6)
+
         self.textinput_optimizer_maxit = QLineEdit(self.tab_8)
         self.textinput_optimizer_maxit.setObjectName(u"textinput_optimizer_maxit")
         self.textinput_optimizer_maxit.setMinimumSize(QSize(0, 40))
 
         self.gridLayout_11.addWidget(self.textinput_optimizer_maxit, 13, 3, 1, 6)
 
+        self.button_optimizer_optimize = QPushButton(self.tab_8)
+        self.button_optimizer_optimize.setObjectName(u"button_optimizer_optimize")
+        self.button_optimizer_optimize.setMinimumSize(QSize(0, 40))
+        self.button_optimizer_optimize.setStyleSheet(u"QPushButton {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #288c14, stop:0.91 #0d3006); color: #ffffff;}\n"
+"QPushButton::hover {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #55ba41, stop:0.91 #0d3006); color: #ffffff;}")
+
+        self.gridLayout_11.addWidget(self.button_optimizer_optimize, 8, 0, 1, 2)
+
+        self.label_title_qdsystem_14 = QLabel(self.tab_8)
+        self.label_title_qdsystem_14.setObjectName(u"label_title_qdsystem_14")
+        self.label_title_qdsystem_14.setMinimumSize(QSize(0, 40))
+        self.label_title_qdsystem_14.setMaximumSize(QSize(16777215, 40))
+        self.label_title_qdsystem_14.setFrameShape(QFrame.NoFrame)
+        self.label_title_qdsystem_14.setFrameShadow(QFrame.Plain)
+
+        self.gridLayout_11.addWidget(self.label_title_qdsystem_14, 4, 2, 1, 1)
+
+        self.button_optimizer_runstring_to_main = HoverButton(self.tab_8)
+        self.button_optimizer_runstring_to_main.setObjectName(u"button_optimizer_runstring_to_main")
+        self.button_optimizer_runstring_to_main.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.button_optimizer_runstring_to_main, 9, 0, 1, 2)
+
+        self.label_title_qdsystem_23 = QLabel(self.tab_8)
+        self.label_title_qdsystem_23.setObjectName(u"label_title_qdsystem_23")
+        self.label_title_qdsystem_23.setMinimumSize(QSize(0, 40))
+        self.label_title_qdsystem_23.setMaximumSize(QSize(16777215, 40))
+        self.label_title_qdsystem_23.setFrameShape(QFrame.NoFrame)
+        self.label_title_qdsystem_23.setFrameShadow(QFrame.Plain)
+
+        self.gridLayout_11.addWidget(self.label_title_qdsystem_23, 14, 2, 1, 1)
+
+        self.textinput_optimizer_maxit_2 = QLineEdit(self.tab_8)
+        self.textinput_optimizer_maxit_2.setObjectName(u"textinput_optimizer_maxit_2")
+        self.textinput_optimizer_maxit_2.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_11.addWidget(self.textinput_optimizer_maxit_2, 14, 3, 1, 1)
+
         self.optimizer_call_plotscript = QCheckBox(self.tab_8)
         self.optimizer_call_plotscript.setObjectName(u"optimizer_call_plotscript")
         self.optimizer_call_plotscript.setMinimumSize(QSize(0, 40))
 
-        self.gridLayout_11.addWidget(self.optimizer_call_plotscript, 14, 2, 1, 7)
+        self.gridLayout_11.addWidget(self.optimizer_call_plotscript, 16, 3, 1, 1)
+
+        self.label_plot_optimizer_3 = PlotWidget(self.tab_8)
+        self.label_plot_optimizer_3.setObjectName(u"label_plot_optimizer_3")
+        self.label_plot_optimizer_3.setMinimumSize(QSize(0, 200))
+        self.label_plot_optimizer_3.setStyleSheet(u"background-color: b")
+
+        self.gridLayout_11.addWidget(self.label_plot_optimizer_3, 18, 1, 2, 1)
+
+        self.label_plot_optimizer_2 = PlotWidget(self.tab_8)
+        self.label_plot_optimizer_2.setObjectName(u"label_plot_optimizer_2")
+        self.label_plot_optimizer_2.setMinimumSize(QSize(0, 200))
+        self.label_plot_optimizer_2.setStyleSheet(u"background-color: b")
+
+        self.gridLayout_11.addWidget(self.label_plot_optimizer_2, 10, 1, 7, 1)
 
         self.tabWidget.addTab(self.tab_8, "")
         self.tab = QWidget()
@@ -2535,15 +2545,15 @@ class Ui_MainWindow(object):
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 1458, 22))
-        self.menuMenu = QMenu(self.menubar)
-        self.menuMenu.setObjectName(u"menuMenu")
-        self.menuMenu.setGeometry(QRect(269, 131, 135, 59))
-        self.menuFunctions = QMenu(self.menubar)
-        self.menuFunctions.setObjectName(u"menuFunctions")
-        self.menuDeveloper_Tools = QMenu(self.menubar)
-        self.menuDeveloper_Tools.setObjectName(u"menuDeveloper_Tools")
-        self.menuEdit = QMenu(self.menubar)
-        self.menuEdit.setObjectName(u"menuEdit")
+        self.menu_main = QMenu(self.menubar)
+        self.menu_main.setObjectName(u"menu_main")
+        self.menu_main.setGeometry(QRect(269, 131, 135, 59))
+        self.menu_functions = QMenu(self.menubar)
+        self.menu_functions.setObjectName(u"menu_functions")
+        self.menu_developer_tools = QMenu(self.menubar)
+        self.menu_developer_tools.setObjectName(u"menu_developer_tools")
+        self.menu_tools = QMenu(self.menubar)
+        self.menu_tools.setObjectName(u"menu_tools")
         MainWindow.setMenuBar(self.menubar)
         QWidget.setTabOrder(self.textinput_optimizer_files, self.textinput_optimizer_file_indices)
         QWidget.setTabOrder(self.textinput_optimizer_file_indices, self.textinput_optimizer_legend)
@@ -2598,11 +2608,9 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.text_output_list_of_wigner_funcs, self.button_add_electronic_state)
         QWidget.setTabOrder(self.button_add_electronic_state, self.text_output_list_of_spectra)
         QWidget.setTabOrder(self.text_output_list_of_spectra, self.text_output_list_of_indists)
-        QWidget.setTabOrder(self.text_output_list_of_indists, self.button_timeline_force_calculate)
-        QWidget.setTabOrder(self.button_timeline_force_calculate, self.button_timeline_force_calculate_spectra)
+        QWidget.setTabOrder(self.text_output_list_of_indists, self.button_timeline_force_calculate_spectra)
         QWidget.setTabOrder(self.button_timeline_force_calculate_spectra, self.text_output_list_of_detector_spec)
-        QWidget.setTabOrder(self.text_output_list_of_detector_spec, self.input_timeline_enable_phonons)
-        QWidget.setTabOrder(self.input_timeline_enable_phonons, self.button_remove_spectrum_from_output)
+        QWidget.setTabOrder(self.text_output_list_of_detector_spec, self.button_remove_spectrum_from_output)
         QWidget.setTabOrder(self.button_remove_spectrum_from_output, self.text_output_list_of_detector_time)
         QWidget.setTabOrder(self.text_output_list_of_detector_time, self.textinput_concurrence_spec_range)
         QWidget.setTabOrder(self.textinput_concurrence_spec_range, self.text_output_program_qdacc_command)
@@ -2691,8 +2699,7 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.button_empty_destination_folder, self.button_open_destination_folder)
         QWidget.setTabOrder(self.button_open_destination_folder, self.button_generate_run)
         QWidget.setTabOrder(self.button_generate_run, self.button_generate_copy)
-        QWidget.setTabOrder(self.button_generate_copy, self.button_run_kill)
-        QWidget.setTabOrder(self.button_run_kill, self.button_run_program)
+        QWidget.setTabOrder(self.button_generate_copy, self.button_run_program)
         QWidget.setTabOrder(self.button_run_program, self.button_run_external)
         QWidget.setTabOrder(self.button_run_external, self.input_plot_mode)
         QWidget.setTabOrder(self.input_plot_mode, self.button_plot_everything)
@@ -2733,11 +2740,11 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.textinput_rates_radiative_decay, self.button_optimizer_fitness_function)
         QWidget.setTabOrder(self.button_optimizer_fitness_function, self.output_howto)
 
-        self.menubar.addAction(self.menuMenu.menuAction())
-        self.menubar.addAction(self.menuEdit.menuAction())
-        self.menubar.addAction(self.menuFunctions.menuAction())
-        self.menubar.addAction(self.menuDeveloper_Tools.menuAction())
-        self.menuMenu.addSeparator()
+        self.menubar.addAction(self.menu_main.menuAction())
+        self.menubar.addAction(self.menu_tools.menuAction())
+        self.menubar.addAction(self.menu_functions.menuAction())
+        self.menubar.addAction(self.menu_developer_tools.menuAction())
+        self.menu_main.addSeparator()
 
         self.retranslateUi(MainWindow)
 
@@ -2753,29 +2760,32 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"QDaCC Generator", None))
         self.actionLoad_QDaCC_Command.setText(QCoreApplication.translate("MainWindow", u"Import QDaCC Command", None))
         self.actionExport_QDaCC_Command.setText(QCoreApplication.translate("MainWindow", u"Export QDaCC Command", None))
+        self.input_initial_state.setText(QCoreApplication.translate("MainWindow", u"Initial State", None))
         self.label_title_qdsystem.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">QD System</span></p></body></html>", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:700;\">Add...</span></p></body></html>", None))
         self.button_add_electronic_state.setText(QCoreApplication.translate("MainWindow", u"State", None))
-        self.button_add_cavity.setText(QCoreApplication.translate("MainWindow", u"Cavity", None))
-        self.button_add_optical_pulse.setText(QCoreApplication.translate("MainWindow", u"Pulse", None))
-        self.button_add_electronic_shift.setText(QCoreApplication.translate("MainWindow", u"Chirp", None))
-        self.button_modify_edit.setText(QCoreApplication.translate("MainWindow", u"Edit", None))
         self.button_modify_delete.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
-        self.button_modify_clear.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
+        self.label_output_system.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><br/></p></body></html>", None))
+        self.button_add_optical_pulse.setText(QCoreApplication.translate("MainWindow", u"Pulse", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:700;\">Add...</span></p></body></html>", None))
 #if QT_CONFIG(statustip)
         self.input_draw_details.setStatusTip("")
 #endif // QT_CONFIG(statustip)
         self.input_draw_details.setText(QCoreApplication.translate("MainWindow", u"Details", None))
-#if QT_CONFIG(tooltip)
-        self.slider_state_separator.setToolTip(QCoreApplication.translate("MainWindow", u"Adjust visible state separation", None))
-#endif // QT_CONFIG(tooltip)
+        self.textinput_initial_state.setText("")
 #if QT_CONFIG(tooltip)
         self.slider_state_grouping.setToolTip(QCoreApplication.translate("MainWindow", u"Adjust state grouping threshold", None))
 #endif // QT_CONFIG(tooltip)
-        self.input_initial_state.setText(QCoreApplication.translate("MainWindow", u"Initial State", None))
-        self.textinput_initial_state.setText("")
+        self.button_modify_edit.setText(QCoreApplication.translate("MainWindow", u"Edit", None))
+        self.button_add_electronic_shift.setText(QCoreApplication.translate("MainWindow", u"Chirp", None))
+#if QT_CONFIG(tooltip)
+        self.slider_state_separator.setToolTip(QCoreApplication.translate("MainWindow", u"Adjust visible state separation", None))
+#endif // QT_CONFIG(tooltip)
+        self.button_modify_clear.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
+        self.button_add_cavity.setText(QCoreApplication.translate("MainWindow", u"Cavity", None))
         self.button_next_tab_system_to_config.setText(QCoreApplication.translate("MainWindow", u"Next", None))
-        self.label_output_system.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><br/></p></body></html>", None))
+#if QT_CONFIG(tooltip)
+        self.slider_state_x_seperation.setToolTip(QCoreApplication.translate("MainWindow", u"Adjust state grouping threshold", None))
+#endif // QT_CONFIG(tooltip)
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_system), QCoreApplication.translate("MainWindow", u"System", None))
         self.textinput_phonons_sd_qd_de.setText(QCoreApplication.translate("MainWindow", u"7eV", None))
         self.label_32.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:700;\">Hole Energy</span></p></body></html>", None))
@@ -2887,15 +2897,7 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(statustip)
         self.button_time_config_tol.setText(QCoreApplication.translate("MainWindow", u"Tolerance", None))
         self.label_title_time.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">Time</span></p></body></html>", None))
-#if QT_CONFIG(statustip)
-        self.button_timeline_force_calculate.setStatusTip(QCoreApplication.translate("MainWindow", u"Calculate the actual temporal evolution. This disables the phonon interactions, such that calculations are fast.", None))
-#endif // QT_CONFIG(statustip)
-        self.button_timeline_force_calculate.setText(QCoreApplication.translate("MainWindow", u"Calculate Time", None))
         self.textinput_time_endtime.setText(QCoreApplication.translate("MainWindow", u"auto", None))
-#if QT_CONFIG(statustip)
-        self.input_timeline_enable_phonons.setStatusTip("")
-#endif // QT_CONFIG(statustip)
-        self.input_timeline_enable_phonons.setText(QCoreApplication.translate("MainWindow", u"Disable Phonons", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:700;\">Time Step</span></p></body></html>", None))
         self.input_interpolator_tau.setItemText(0, QCoreApplication.translate("MainWindow", u"Linear", None))
         self.input_interpolator_tau.setItemText(1, QCoreApplication.translate("MainWindow", u"Monotone", None))
@@ -3144,15 +3146,18 @@ class Ui_MainWindow(object):
         self.text_output_program_main.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Output", None))
         self.button_generate_run.setText(QCoreApplication.translate("MainWindow", u"Generate", None))
         self.button_generate_copy.setText(QCoreApplication.translate("MainWindow", u"Copy", None))
-        self.button_run_kill.setText(QCoreApplication.translate("MainWindow", u"Kill", None))
         self.button_run_program.setText(QCoreApplication.translate("MainWindow", u"Run", None))
         self.input_plot_mode.setItemText(0, QCoreApplication.translate("MainWindow", u"Workspace Folder", None))
         self.input_plot_mode.setItemText(1, QCoreApplication.translate("MainWindow", u"Animated Blochsphere", None))
         self.input_plot_mode.setItemText(2, QCoreApplication.translate("MainWindow", u"Animated Density Matrix", None))
 
         self.button_plot_everything.setText(QCoreApplication.translate("MainWindow", u"Plot", None))
+#if QT_CONFIG(tooltip)
+        self.button_run_external.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><a href=\"https://pc2.uni-paderborn.de/de/hpc-services/available-systems/noctua2\"><span style=\" font-size:12pt; font-weight:700; text-decoration: underline; color:#0000ff;\">Calculate QDaCC on the noctua2 HPC cluster</span></a></p><p align=\"center\"><span style=\" font-size:12pt; font-weight:700;\">!! Currently not yet available !!</span></p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
         self.button_run_external.setText(QCoreApplication.translate("MainWindow", u"Run on Noctua", None))
-        self.button_run_and_plot.setText(QCoreApplication.translate("MainWindow", u"Run And Plot", None))
+        self.button_run_kill.setText(QCoreApplication.translate("MainWindow", u"Kill", None))
+        self.button_run_and_plot.setText(QCoreApplication.translate("MainWindow", u"Run and Plot", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_generate), QCoreApplication.translate("MainWindow", u"Generate and Run", None))
         self.label_title_qdsystem_5.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">To</span></p></body></html>", None))
         self.textinput_path_to_settingfile.setText("")
@@ -3229,28 +3234,8 @@ class Ui_MainWindow(object):
         self.textinput_scan_parameter_1_lambda.setText("")
         self.textinput_scan_parameter_2_lambda.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), QCoreApplication.translate("MainWindow", u"Sweep and Scan", None))
-        self.button_optimizer_files.setText(QCoreApplication.translate("MainWindow", u"Files", None))
-        self.text_output_program_qdacc_command_sweep_display_2.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
-        self.text_output_program_qdacc_command_sweep_display_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Optimizer Output", None))
-        self.label_title_qdsystem_22.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Maximum Iterations</span></p></body></html>", None))
-        self.label_title_qdsystem_17.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Parameter Names</span></p></body></html>", None))
-        self.label_title_qdsystem_6.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Parameters Bounds</span></p></body></html>", None))
-        self.button_optimizer_optimize.setText(QCoreApplication.translate("MainWindow", u"Optimize", None))
-        self.button_optimizer_get_runstring.setText(QCoreApplication.translate("MainWindow", u"Get Current Runstring", None))
-        self.button_optimizer_fitness_function.setText(QCoreApplication.translate("MainWindow", u"Fitness Function", None))
-        self.button_optimizer_runstring_to_main.setText(QCoreApplication.translate("MainWindow", u"Move Command to Main Window", None))
-        self.button_optimizer_files_2.setText(QCoreApplication.translate("MainWindow", u"File Indices", None))
-        self.label_title_qdsystem_14.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Initial Parameters</span></p></body></html>", None))
-        self.label_title_qdsystem_21.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Epsilon</span></p></body></html>", None))
-        self.label_title_qdsystem_16.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Legend</span></p></body></html>", None))
-        self.label_title_qdsystem_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Format Function</span></p></body></html>", None))
+        self.textinput_optimizer_legend.setText("")
+        self.textinput_optimizer_fitnessfunction.setText(QCoreApplication.translate("MainWindow", u"last(Y1)", None))
         self.text_output_program_qdacc_command_sweep_2.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -3260,24 +3245,49 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.text_output_program_qdacc_command_sweep_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"./QDaCC.exe ...", None))
-        self.label_title_qdsystem_20.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Tolerance</span></p></body></html>", None))
-        self.textinput_optimizer_files.setText("")
-        self.textinput_optimizer_file_indices.setText("")
-        self.textinput_optimizer_legend.setText("")
-        self.textinput_optimizer_initial_parameters.setText("")
-        self.textinput_optimizer_parameter_bounds.setText("")
-        self.textinput_optimizer_parameter_names.setText("")
-        self.textinput_optimizer_fitnessfunction.setText(QCoreApplication.translate("MainWindow", u"last(Y1)", None))
         self.textinput_optimizer_formatfunction.setText(QCoreApplication.translate("MainWindow", u"basestring.format(*parameters)", None))
         self.textinput_optimizer_tol.setText(QCoreApplication.translate("MainWindow", u"1e-6", None))
+        self.button_optimizer_files_2.setText(QCoreApplication.translate("MainWindow", u"File Indices", None))
+        self.textinput_optimizer_parameter_names.setText("")
+        self.button_optimizer_get_runstring.setText(QCoreApplication.translate("MainWindow", u"Get Current Runstring", None))
+        self.label_title_qdsystem_22.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Maximum Iterations</span></p></body></html>", None))
+        self.button_optimizer_files.setText(QCoreApplication.translate("MainWindow", u"Files", None))
+        self.label_title_qdsystem_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Format Function</span></p></body></html>", None))
+        self.textinput_optimizer_file_indices.setText("")
+        self.textinput_optimizer_initial_parameters.setText("")
+        self.label_title_qdsystem_21.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Epsilon</span></p></body></html>", None))
+        self.label_title_qdsystem_16.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Legend</span></p></body></html>", None))
+        self.button_optimizer_fitness_function.setText(QCoreApplication.translate("MainWindow", u"Fitness Function", None))
+        self.label_title_qdsystem_20.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Tolerance</span></p></body></html>", None))
+        self.label_title_qdsystem_17.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Parameter Names</span></p></body></html>", None))
+        self.text_output_program_qdacc_command_sweep_display_2.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
+        self.text_output_program_qdacc_command_sweep_display_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Optimizer Output", None))
+        self.label_title_qdsystem_6.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Parameters Bounds</span></p></body></html>", None))
         self.textinput_optimizer_eps.setText(QCoreApplication.translate("MainWindow", u"1e-6", None))
+        self.textinput_optimizer_parameter_bounds.setText("")
+        self.textinput_optimizer_files.setText("")
         self.textinput_optimizer_maxit.setText(QCoreApplication.translate("MainWindow", u"100", None))
+        self.button_optimizer_optimize.setText(QCoreApplication.translate("MainWindow", u"Optimize", None))
+        self.label_title_qdsystem_14.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Initial Parameters</span></p></body></html>", None))
+        self.button_optimizer_runstring_to_main.setText(QCoreApplication.translate("MainWindow", u"Move Command to Main Window", None))
+        self.label_title_qdsystem_23.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Optimizer</span></p></body></html>", None))
+        self.textinput_optimizer_maxit_2.setText(QCoreApplication.translate("MainWindow", u"nelder-mead", None))
+#if QT_CONFIG(tooltip)
+        self.optimizer_call_plotscript.setToolTip(QCoreApplication.translate("MainWindow", u"Enabling Sweep or Scan Mode will call the plotscript after each iteration of the optimizer. This can be usefull if you want to optimize e.g. the endpoints of a simulation to fit a certain curve. Remember, numpy (np) and scipy(sp) can be used in the fitness function to enable fitting.", None))
+#endif // QT_CONFIG(tooltip)
         self.optimizer_call_plotscript.setText(QCoreApplication.translate("MainWindow", u"Sweep or Scan Mode", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_8), QCoreApplication.translate("MainWindow", u"Optimization", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"How-To", None))
-        self.menuMenu.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
-        self.menuFunctions.setTitle(QCoreApplication.translate("MainWindow", u"Functions", None))
-        self.menuDeveloper_Tools.setTitle(QCoreApplication.translate("MainWindow", u"Dev Tools", None))
-        self.menuEdit.setTitle(QCoreApplication.translate("MainWindow", u"Tools", None))
+        self.menu_main.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
+        self.menu_functions.setTitle(QCoreApplication.translate("MainWindow", u"Functions", None))
+        self.menu_developer_tools.setTitle(QCoreApplication.translate("MainWindow", u"Dev Tools", None))
+        self.menu_tools.setTitle(QCoreApplication.translate("MainWindow", u"Tools", None))
     # retranslateUi
 

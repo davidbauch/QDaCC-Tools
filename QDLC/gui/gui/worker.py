@@ -2,7 +2,7 @@ from PySide6.QtCore import QObject, Signal, QThread
 from PySide6.QtWidgets import QTextBrowser
 from subprocess import Popen, PIPE
 from .parse_ansi import replace_ansi_escape_sequences
-from os import environ
+from os import environ, listdir
 from numpy import array as to_np_array
 
 class QDaCCThread(QThread):
@@ -105,7 +105,7 @@ class QDaCCSettingGenerator(QDaCCThread):
                 self.progress.emit(f"Saved {mgx.shape[0]*mgx.shape[1]} settings to {output_file}")
             else:
                 runstr = converter(runstring.replace("[QDaCC]", "QDaCC").replace("[FILEPATH]",""))
-                self.progress.emit(f"Saved 1 setting1 to {output_file}")
+                self.progress.emit(f"Saved 1 setting to {output_file}")
                 f.write(f"{runstr}\n")
         
         self.progress.emit("Done")
@@ -202,7 +202,9 @@ class QDaCCOptimizer(QDaCCThread):
 
         # Plot Results if required
         if self.plot_after_iteration:
-            plot_command = ["python3", "-m", "QDLC.eval_tools.get_files", "all", self.path,"-folder" if self.plot_is_folder else "", "--type=png(50)"]
+            # Files to plot are all files in the target directory that appear in our files list
+            to_eval = ",".join(set([f.split("endpoints_")[-1].split("out_")[-1] for f in self.kwargs["files"]]))
+            plot_command = ["python3", "-m", "QDLC.eval_tools.get_files", to_eval, self.path,"-folder" if self.plot_is_folder else "", "--type=png(50)"]
             # Call plot command
             self.runExternal(plot_command)
 

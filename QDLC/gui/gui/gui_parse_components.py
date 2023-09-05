@@ -132,7 +132,8 @@ def _parse_config_initial_state(components: dict, escape_symbol: str = "", callb
     if "State" not in p or len(p["State"]) == 0:
         callback("Please enter the initial State!")
         return ""
-    return f"--R {escape_symbol}:{p['State']};{escape_symbol}"
+    initial_states = "+".join([f":{current};" for current in p['State'].split('+')])
+    return f"--R {escape_symbol}{initial_states}{escape_symbol}"
 
 def _parse_runconfig(components: dict, escape_symbol: str = "", callback = None) -> str:
     p = components["RunConfig"]
@@ -204,9 +205,9 @@ def _parse_detector(components: dict, escape_symbol: str = "", callback = None) 
         return ""
     ret = f"--detector {escape_symbol}"
     for d in p1.values():
-        ret += f"{d['t0']}:{d['t1']}:{d['Power']};"
+        ret += f"{d['t1']}:{d['t0']}:{d['Power']};"
     for d in p2.values():
-        ret += f"{d['w0']}:{d['w1']}:{d['Points']}:{d['Power']};"
+        ret += f"{d['w1']}:{d['w0']}:{d['Points']}:{d['Power']};"
     return ret[:-1] + escape_symbol
 
 _component_parser = {

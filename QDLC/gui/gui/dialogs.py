@@ -8,7 +8,9 @@ def getCheckedItems(items: list[str], parent = None) -> tuple[list[str],bool] | 
         return None, False
     return [list_item for (list_item,checked_item) in zip(items,checked_items) if checked_item ], True
 
-def getGeneralItems(items: list[dict], parent = None) -> tuple[list[str | bool],bool] | tuple[None,bool]:
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QGridLayout, QCheckBox, QDialogButtonBox, QLabel
+
+def getGeneralItems(items: list[dict], parent=None) -> tuple[list[str | bool], bool] | tuple[None, bool]:
     if not len(items):
         return None, False
     dialog = QDialog()
@@ -16,23 +18,30 @@ def getGeneralItems(items: list[dict], parent = None) -> tuple[list[str | bool],
         dialog.setStyleSheet(parent.styleSheet())
     layout = QVBoxLayout(dialog)
     content = []
+    grid_layout = QGridLayout()
+    row = 0
+    col = 0
     for item in items:
         if not "Type" in item:
             continue
-        h_layout = QHBoxLayout()
-        Qitem = item["Type"]()
+        q_item = item["Type"]()
         if "PHText" in item:
-            Qitem.setplaceholderText(item["PHText"])
+            q_item.setPlaceholderText(item["PHText"])
         if "Text" in item:
-            Qitem.setText(item["Text"])
+            q_item.setText(item["Text"])
         if "Checked" in item:
-            Qitem.setChecked(item["Checked"])
+            q_item.setChecked(item["Checked"])
         if "Title" in item:
-            Qtitle = QLabel(item["Title"])
-            h_layout.addWidget(Qtitle)
-        h_layout.addWidget(Qitem)
-        layout.addLayout(h_layout)
-        content.append(Qitem)
+            q_title = QLabel(item["Title"])
+            grid_layout.addWidget(q_title, row, col)
+            row += 1
+        grid_layout.addWidget(q_item, row, col)
+        row += 1
+        if row >= 10:
+            row = 0
+            col += 1
+        content.append(q_item)
+    layout.addLayout(grid_layout)
     button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
     layout.addWidget(button_box)
     button_box.accepted.connect(dialog.accept)

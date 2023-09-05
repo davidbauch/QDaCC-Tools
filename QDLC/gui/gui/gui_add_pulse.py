@@ -50,7 +50,10 @@ class DialogAddPulse(QDialog, Ui_AddPulse):
                     y = a*np.sin(madeup_freq*(t-c) + w)
                 else:
                     phase = 0 if not "phase" in type else float(type.split("phase(")[-1].split(")")[0])
-                    y = a*np.exp( -(t-c)**2 / w**2 / 2 )
+                    exponent = 2 if not "exponent" in type else int(type.split("exponent(")[-1].split(")")[0])
+                    if exponent % 2 != 0:
+                        print(f"The pulse exponent should be even! You picked {exponent}. Pick {exponent-1} or {exponent+1} instead!")
+                    y = a*np.exp( -(t-c)**exponent / w**exponent / 2 )
                     y2 = y*np.sin(madeup_freq*(t-c) + 3.1415*phase)
                     self.plot_pulse.canvas.axes.plot(t,y2,color=f"C{i}")
                 self.plot_pulse.canvas.axes.plot(t,y,color=f"C{i}")
