@@ -1,50 +1,109 @@
-QMainWindow {background-color: #ffffff;}
-QLabel {background-color: #ffffff; min-width: 140; min-height: 40; font-weight: bold; text-align: center;}
+QMainWindow {
+    background-color: primary_color;
+}
+
+QLabel {
+    background-color: primary_color;
+    color: text_color;
+    border-radius: 3px;
+    font-weight: bold;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    min-height: 40;
+}
+QLabel[objectName="main_logo"] {
+    min-height: 200px;
+    background-color: primary_color;
+    border: none;
+}
+QLabel[objectName="main_descriptor"] {
+    background-color: primary_color;
+    border: none;
+}
+
+QFrame[objectName^="frame"] {
+    background-color: background_color;
+    margin: 5px;
+    padding: 10px;
+}
+QFrame[objectName^="frame"] QVBoxLayout {
+    
+}
+
+QPushButton {
+    background-color: primary_color;
+    color: text_color;
+    border-radius: 3px;  
+    font-weight: bold; 
+    font-size: 16px; 
+    min-height: 40;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+QPushButton::hover {
+    background-color: text_color;
+    color: primary_color;
+}
+
+QLineEdit {
+    background-color: primary_color;
+    color: text_color;
+    min-width: 140; 
+    font-weight: bold; 
+    text-align: center;
+    min-height: 40;
+    border-radius: 3px; 
+}
+QLineEdit::hover {
+    background-color: text_color;
+    color: primary_color;
+}
+
+QComboBox {
+    background-color: primary_color;
+    color: text_color;
+    min-width: 140; 
+    min-height: 40; 
+    font-weight: bold; 
+    text-align: center;
+    border-radius: 3px; 
+    padding-left: 10%;
+}
+QComboBox::hover {
+    background-color: text_color;
+    color: primary_color;
+}
+QComboBox::down-arrow {
+    background-color: active_primary_color; 
+    min-height: 40px; 
+    border-top-right-radius: 3px; 
+    border-bottom-right-radius: 3px;
+}
+QComboBox::drop-down {
+    border: 0px;
+}
+
 QAbstractButton {min-width: 140; min-height: 40; font-weight: bold; text-align: center;}
-QLineEdit {min-width: 140; min-height: 40; font-weight: bold; text-align: center;}
-QComboBox {min-width: 140; min-height: 40; font-weight: bold; text-align: center;}
 QAbstractSpinBox {min-width: 140; min-height: 40; font-weight: bold; text-align: center;}
-QListView{border-radius: 3px; background-color: #D2D4DA; }
+QListView{border-radius: 3px; background-color: secondary_color; }
 
-QProgressBar {text-align: center; border-radius: 3px;}
-QProgressBar::chunk {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #f4501e, stop:0.91 #8d2f13);  color: #FFFFFF; border-radius: 3px;}
-
-QPushButton {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 #f3f4f6, stop:1 #e6e8ec);  color: #374151; border-radius: 3px;  font-weight: bold; font-size: 16px; }
-QPushButton::hover {background-color: #f3f4f6;}
-QPushButton[objectName^="button_next_tab"] {background-color: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0.9 #f4501e, stop:0.91 #8d2f13);  color: #FFFFFF; border-radius: 3px; }
-QPushButton[objectName^="button_next_tab"]::hover {background-color: #aaf4501e;}
 
 QTextEdit {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 #f3f4f6, stop:1 #e6e8ec); }
-QTextEdit::hover {background-color: #D2D4DA}
+QTextEdit::hover {background-color: secondary_color}
 
-QLabel {border:  2px solid #e6e8ec; border-radius: 3px; border-width: 1px; background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 #f3f4f6, stop:1 #e6e8ec); color: #374151; }
-QLabel[objectName^="label_title"] {}
-QLabel[objectName^="label_output"] { }
-QLabel[objectName^="label_plot"] { }
 
-QLineEdit {border-radius: 3px; border-color: #000000; background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 #f3f4f6, stop:1 #e6e8ec);  color: #374151;}
-QLineEdit::hover {background-color: #D2D4DA}
 
-QComboBox {border-radius: 3px; background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 #f3f4f6, stop:1 #e6e8ec);  padding-left: 10%; color: #374151;}
-QComboBox::hover {background-color: #D2D4DA}
+QCheckBox {background-color: primary_color;  border-radius: 3px; padding-left:10%; color: text_color; }
+QCheckBox::hover {background-color: secondary_color}
 
-QCheckBox {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 #f3f4f6, stop:1 #e6e8ec);  border-radius: 3px; padding-left:10%; color: #374151; }
-QCheckBox::hover {background-color: #D2D4DA}
+QTextBrowser {background-color: secondary_color; }
+QTextBrowser[objectName^="text_output"] {background-color: #44282A3A; border-radius: 3px; color: text_color; }
 
-QTextBrowser {background-color: #D2D4DA; }
-QTextBrowser[objectName^="text_output"] {background-color: #44282A3A; border-radius: 3px; color: #000000; }
-
-QTabWidget { min-width: 0; min-height: 0;}
-QTabWidget::tab-bar {   border: 0px solid #282A3A; min-width: 0; min-height: 0;}
-QTabBar::tab {  background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.94 #ffffff, stop:0.95 #44282A3A);  color: b;  padding-left: 10px; padding-right:10px; padding-bottom: 10px; padding-top: 5px; font-weight: bold; }
-QTabBar::tab:selected { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.9 #ffffff, stop:0.91 #44282A3A); padding-right:50px; padding-left:50px;}
-
-QListView::item {background:#D2D4DA; border-right-width:3px; border-color: #282A3A; padding: 5%;}
-QListView::item:selected:!active {background:#D2D4DA; border-right-width:3px; border-color: #aaf4501e;}
+QListView::item {background:secondary_color; border-right-width:3px; border-color: #282A3A; padding: 5%;}
+QListView::item:selected:!active {background:secondary_color; border-right-width:3px; border-color: #aaf4501e;}
 QListView::item:selected:active {background: #88282A3A; border-right-width:3px; border-color: #aaf4501e;}
-QListView::item:hover {background: #D2D4DA; }
-QComboBox::down-arrow {background-color: #88282A3A; min-height: 40px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;}
-QComboBox::drop-down {border: 0px;}
+QListView::item:hover {background: secondary_color; }
 
 QMenu::item::active {padding: 5%;}
 QMenu::item::selected::active {background: #aaf4501e; border-radius: 4px; padding: 5%;}
@@ -60,3 +119,62 @@ QScrollBar::add-line:vertical:hover {background-color: #88282A3A;}
 QScrollBar::add-line:vertical:pressed {background-color: #f4501e;}
 QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {background: none;}
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background: none;}
+
+
+QGraphicsView[objectName="label_output_system"] {
+    background-color: secondary_color;
+    border: none;
+}
+
+QTabWidget[objectName="main_tab_widget"] {
+    border: none;
+   background-color: secondary_color;
+}
+QTabWidget::pane[objectName="main_tab_widget"] {
+    border: none;
+    margin-bottom: -1px;
+    margin-right: -1px;
+    background-color: secondary_color;
+}
+QWidget[objectName="main_tab_widget"] > QTabBar::tab {
+    background-color: primary_color;
+    padding-bottom: 15px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+QWidget[objectName="main_tab_widget"] > QTabBar::tab:selected {
+    background-color: secondary_color;
+    border-left: 5px solid active_primary_color;
+}
+QWidget[objectName="main_tab_widget"] > QTabBar::tab:!selected:hover {
+    border-left: 5px solid active_secondary_color;
+}
+
+QTabWidget[objectName="statistics_tab_widget"] {
+    background-color: primary_color;
+}
+QTabWidget[objectName="statistics_tab_widget"] > QTabBar::tab {
+    background-color: secondary_color;
+    font-size: 20px;
+    padding: 5px;
+    padding-right: 25px;
+    padding-left: 25px;
+    border-bottom: 5px solid active_primary_color;
+    color: text_color;
+}
+QTabWidget[objectName="statistics_tab_widget"] > QTabBar::tab:selected {
+    border-bottom: 5px solid active_secondary_color;
+}
+QTabWidget[objectName="statistics_tab_widget"] > QTabBar::tab:!selected:hover {
+    border-bottom: 5px solid active_secondary_color;
+}
+
+QTabWidget::pane[objectName="statistics_tab_widget"] {
+    border: none;
+    margin-bottom: -1px;
+    margin-right: -1px;
+    background-color: secondary_color;
+}

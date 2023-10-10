@@ -205,9 +205,14 @@ def _parse_detector(components: dict, escape_symbol: str = "", callback = None) 
         return ""
     ret = f"--detector {escape_symbol}"
     for d in p1.values():
-        ret += f"{d['t1']}:{d['t0']}:{d['Power']};"
+        ret += f"{d['t1']}:{d['t0']}:1:{d['Power']}:G;"
+    if len(p1.values()) == 0:
+        ret += "none"
+    ret += " "
     for d in p2.values():
-        ret += f"{d['w1']}:{d['w0']}:{d['Points']}:{d['Power']};"
+        ret += f"{d['w1']}:{d['w0']}:1:{d['Power']}:{d['Points']}:G;"
+    if len(p2.values()) == 0:
+        ret += "none"
     return ret[:-1] + escape_symbol
 
 _component_parser = {

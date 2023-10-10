@@ -1,5 +1,5 @@
 import sys, os
-from PySide6.QtWidgets import QWidget,QMainWindow, QApplication,QLabel, QLineEdit,QTextEdit, QGridLayout, QTextBrowser, QTabWidget, QBoxLayout, QPushButton, QDialog, QFormLayout, QMessageBox, QFileDialog, QInputDialog, QToolTip, QMenu, QCheckBox, QProgressBar
+from PySide6.QtWidgets import QWidget,QMainWindow, QApplication,QLabel,QGraphicsScene, QLineEdit,QTextEdit, QGridLayout, QTextBrowser, QTabWidget, QBoxLayout, QPushButton, QDialog, QFormLayout, QMessageBox, QFileDialog, QInputDialog, QToolTip, QMenu, QCheckBox, QProgressBar
 from PySide6.QtGui import QIcon, QAction, QPainter, QColor, QPixmap,QFont, QPen, QPainterPath, QStandardItemModel, QStandardItem, QGuiApplication, QDesktopServices, QTextCursor, QMovie
 from PySide6.QtCore import Qt,QRect,QPropertyAnimation,QThread,Signal,QObject, QUrl, QTimer, QSize
 
@@ -24,6 +24,9 @@ from time import time
 from gui.gui_filter_components import component_filter
 from gui.dialogs import getGeneralItems, getCheckedItems
 from gui.worker import QDaCCMainWoker, QDaCCSettingGenerator, QDaCCOptimizer
+from gui.helperfunctions import changeIconColor,changePixmapColor,changePixmapGradient
+
+import psutil
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
@@ -32,16 +35,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.retranslateUi(self)
         self.filepath = os.path.dirname(os.path.realpath(__file__))
 
+        self.design_colors = {
+            "active_primary_color" : "#0674e8",
+            "active_secondary_color" : "#50b79c",
+            "primary_color" : "#181e36",
+            "secondary_color" : "#2e3349",
+            "background_color" : "#252a40",
+            "text_color" : "#d2d4e1",
+            "gradient_color" : ("#97f9fc", "#5eafe7","#3b86e5","#3779d8")
+        }
+
         # Set Stylesheet from file
         with open(os.path.join(self.filepath,"style.qss"),"r") as f:
-            self.setStyleSheet(f.read())
+            data = f.read()
+            for key,val in self.design_colors.items():
+                if isinstance(val, str):
+                    data = data.replace(key,val)
+            self.setStyleSheet(data)
             
         # Config
-        self.colors = {"Background" : "#DDDDDD", 
-        "State" : "#88282A3A",
-        "StateName" : "#FFFFFF",
-        "Transition" : "#88282A3A",
-        "Cavity" : ("#aaf4501e", "#aaf4501e"),
+        self.render_colors = {
+        "State" : self.design_colors["active_primary_color"],#"#88282A3A",
+        "StateName" : self.design_colors["text_color"],
+        "Transition" : self.design_colors["active_secondary_color"],
+        "Cavity" : self.design_colors["gradient_color"],
         "Neutral" : "#000000",
         "Red" : "#FF0000",
         }
@@ -61,7 +78,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "graph1" : os.path.join(self.filepath,"gui/resources/graph1.png"),
             "graph2" : os.path.join(self.filepath,"gui/resources/graph2.png"),
             "loading" : os.path.join(self.filepath,"gui/resources/loading_6.gif"),
+            "tab_system" : os.path.join(self.filepath,"gui/resources/tab_icons/system.png"),
+            "tab_datasets" : os.path.join(self.filepath,"gui/resources/tab_icons/datasets.png"),
+            "tab_time" : os.path.join(self.filepath,"gui/resources/tab_icons/time.png"),
+            "tab_statistics" : os.path.join(self.filepath,"gui/resources/tab_icons/statistics.png"),
+            "tab_run" : os.path.join(self.filepath,"gui/resources/tab_icons/run.png"),
+            "tab_output" : os.path.join(self.filepath,"gui/resources/tab_icons/output.png"),
+            "tab_optimizer" : os.path.join(self.filepath,"gui/resources/tab_icons/optimizer.png"),
+            "tab_howto" : os.path.join(self.filepath,"gui/resources/tab_icons/howto.png"),
+            "tab_environment" : os.path.join(self.filepath,"gui/resources/tab_icons/environment.png"),
+            "main" : os.path.join(self.filepath,"gui/resources/main.png"),
+            "header" : os.path.join(self.filepath,"gui/resources/header.png"),
         }
+        self.main_window_tab_sizes = QSize(50,150)
 
         self.loading_animation = QMovie(self.resources["loading"])
         self.thread_timer = defaultdict(self.generateQAnimationTimer)
@@ -70,6 +99,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.button_plot_everything.setIconSize(QSize(120,28))
         self.button_sweeper_plot.setIconSize(QSize(120,28))
         self.button_optimizer_optimize.setIconSize(QSize(120,28))
+
+        # Test Logo
+        logo = changePixmapGradient(QPixmap(self.resources["main"]), self.design_colors["gradient_color"],45)
+        self.main_logo.setPixmap(logo.scaled(200,200,Qt.KeepAspectRatio,Qt.SmoothTransformation))
+        self.main_logo.setMinimumSize(200,200)
+        self.main_logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        header = changePixmapGradient(QPixmap(self.resources["header"]), self.design_colors["gradient_color"],0)
+        aspect_ratio = header.width()/header.height()
+        self.main_descriptor.setPixmap(header.scaled(200*aspect_ratio,200,Qt.KeepAspectRatio,Qt.SmoothTransformation))
 
         # Thread Dummies
         self.thread = None
@@ -105,6 +143,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Set .svg logo
         self.setWindowIcon(QIcon(self.resources["Logo"]))
 
+        # Set Tabs
+        self.generateTabIcons()
 
         self.show()
         self.connect_config_to_fields()
@@ -113,6 +153,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.path = os.path.dirname(os.path.realpath(__file__))
         self.update_component_list()
         self.drawSystem()
+
+        # CPU Timer
+        self.cpu_timer = QTimer()
+        self.cpu_timer.timeout.connect(self.updateUseStatistics)
+        self.cpu_timer.start(1000)
+
+        # Set progressbar colors
+        for progressbar in (self.progressBar, self.progressBarCPU, self.progressBarRAM):
+            progressbar.color = self.design_colors["active_primary_color"]
+            progressbar.color_bar = self.design_colors["active_secondary_color"]
+
+        # Clear Plots. TODO: plotting via member functions!
+        for plot in (self.label_plot_time_prediction, self.label_plot_spectral_density, self.label_plot_spectral_prediction, self.label_plot_optimizer_1, self.label_plot_optimizer_2, self.label_plot_optimizer_3, self.plot_sweep_parameter_first, self.plot_sweep_parameter_second):
+            plot.resetPlot(self)
 
         # If first argument was passed, load it
         if len(sys.argv) > 1:
@@ -174,6 +228,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.drawSystem()
         self.is_currently_unsaved = False
         self.refreshWindowTitle()
+
+    def generateTabIcons(self):
+        """
+        Adds icons to tabs, removes tab text and sets tab size.
+        """
+        for i,icon in enumerate( ("tab_system", "tab_environment", "tab_time", "tab_statistics", "tab_output", "tab_run", "tab_datasets", "tab_optimizer", "tab_howto") ):
+            icon = changeIconColor(QIcon(self.resources[icon]), self.design_colors["active_primary_color"], self.main_window_tab_sizes)
+            self.main_tab_widget.setTabIcon(i,icon)
+            self.main_tab_widget.setTabText(i,"")
+        self.main_tab_widget.setIconSize(self.main_window_tab_sizes)
 
     def delete_input(self):
         """
@@ -405,7 +469,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.settings_thread = QDaCCSettingGenerator(parent=self, mgx = self.mgx, mgy = self.mgy, values = self.scan_sweep_values, file = filepath, name = project_name, converter = self.commandToCLAList, runstring = runstring, one = one, two = dual)
 
         # Connect the thread to the GUI
-        self.settings_thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_main, text), lambda text: self.updateProgressBar(self.progressBar,text)) 
+        self.settings_thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_main, text), lambda text: self.updateProgressBar(text)) 
         self.settings_thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_qdacc_command_sweep_display, text), None) 
         self.settings_thread.connectStarted(lambda: self.enableRunningButtonAnimation(self.button_sweeper_plot, [self.button_run_program, self.button_plot_everything]))
         self.settings_thread.connectFinished(lambda: self.disableRunningButtonAnimation(self.button_sweeper_plot, "Generate Settingfile", [self.button_run_program, self.button_plot_everything]))
@@ -1145,7 +1209,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #input_command = input_command.split() + [f"{destination}"]
 
         self.thread = QDaCCMainWoker(parent=self, cwd=qdacc_path_str, command=input_command)
-        self.thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_main, text), lambda text: self.updateProgressBar(self.progressBar,text)) 
+        self.thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_main, text), lambda text: self.updateProgressBar(text)) 
         self.thread.connectStarted(lambda: self.enableRunningButtonAnimation(self.button_run_program, [self.button_plot_everything]))
         self.thread.connectFinished(lambda: self.disableRunningButtonAnimation(self.button_run_program, "Run", [self.button_plot_everything]))
         self.thread.connectStarted(lambda: self.button_run_and_plot.setEnabled(False))
@@ -1261,7 +1325,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.optimizer_thread = QDaCCOptimizer(parent=self, cwd=qdacc_path_str, command=command, path=destination, files=files, indices=indices, initial_parameters=initial_parameters, bounds=bounds, eps=eps,
                                 formatter=formatter, fitness=fitnessfunction, tol=tolerance, maxit=maxit, base_eval_dict=self.buildBaseEvaluationDict(), variables=self.system_components["OptimizerFitnessVariables"], 
                                 plot_after_iteration=plot_after_iteration, plot_is_folder=plot_is_folder)
-        self.optimizer_thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_main, text), lambda text: self.updateProgressBar(self.progressBar,text)) 
+        self.optimizer_thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_main, text), lambda text: self.updateProgressBar(text)) 
         self.optimizer_thread.connectStarted(lambda: self.enableRunningButtonAnimation(self.button_run_program, [self.button_plot_everything]))
         self.optimizer_thread.connectStarted(lambda: self.enableRunningButtonAnimation(self.button_optimizer_optimize, None))
         self.optimizer_thread.connectFinished(lambda: self.disableRunningButtonAnimation(self.button_run_program, "Run", [self.button_plot_everything]))
@@ -1623,22 +1687,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             browser.append(text)
 
-    def updateProgressBar(self, pb: QProgressBar, value: int | str):
+    def updateProgressBar(self, value: int | str):
         """
         Updates a progressbar by setting the value to the input value.
         If the input value is a string, it is parsed as an integer.
 
         Parameters:
-            pb: The progressbar to update.
             value: The value to set the progressbar to.
         """
         if isinstance(value, int):
-            pb.setValue(value)
+            self.progressBar.setValue(value)
         else:
             try:
-                pb.setValue(int(value.split("%")[0].split()[-1]))
+                self.progressBar.setValue(int(value.split("%")[0].split()[-1]))
             except Exception as e:
                 pass
+        
+
+    def updateUseStatistics(self):
+        cpu_percent = psutil.cpu_percent()
+        ram_usage = psutil.virtual_memory().percent
+        self.progressBarCPU.setValue(cpu_percent)
+        self.progressBarRAM.setValue(ram_usage)
 
     def sendMessage(self, bar: str, title: str, message: str):
         """
@@ -2094,9 +2164,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.button_optimizer_files.clicked.connect(self.getOptimizerAvailableFiles)
         self.button_optimizer_files_2.clicked.connect(self.getOptimizerFileIndices)
         self.button_sweeper_plot.clicked.connect(self.generate_scan_or_sweep)
-        self.button_sweeper_get_runstring.clicked.connect(lambda: self.text_output_program_qdacc_command_sweep.setText(optimizerGetCurrentRunstring(self.text_output_program_qdacc_command_sweep.toPlainText())))
+        self.button_sweeper_get_runstring.clicked.connect(lambda: self.text_output_program_qdacc_command_sweep.setText(self.optimizerGetCurrentRunstring(self.text_output_program_qdacc_command_sweep.toPlainText())))
         self.button_generate_copy.clicked.connect(lambda: self.clipboard.setText(" ".join(self.commandToCLAList(self.text_output_program_qdacc_command.toPlainText()))))
-        
+        self.button_timeline_force_calculate_time.clicked.connect(self.plotTimePrediction)
+        self.button_timeline_force_calculate_spectra.clicked.connect(self.spectrum_predict_plot)
+
+
         for btn in [self.button_run_and_plot, self.button_run_program]:
             btn.clicked.connect(lambda: self.text_output_program_main.verticalScrollBar().setValue(self.text_output_program_main.verticalScrollBar().maximum()))
 
@@ -2292,28 +2365,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         Additional Details are plotted when the user checks the corresponding box.
         """
+        scene = QGraphicsScene()
         # Plot System Details?
         self.plot_system_details = self.input_draw_details.isChecked()
         # Sort Energy Levels
         self.sort_energy_levels()
-        #if self.fixed_energy_h is None:
-        self.fixed_energy_x,self.fixed_energy_y,self.fixed_energy_w, self.fixed_energy_h = self.label_output_system.geometry().getCoords()
-        x0,y0,w,h = self.fixed_energy_x, self.fixed_energy_y, int(self.fixed_energy_w), int(self.fixed_energy_h) 
+        size = self.label_output_system.size()
+        self.fixed_energy_w, self.fixed_energy_h = size.width()*0.99, size.height()*0.99
+        #self.label_output_system.setMaximumSize(size)
+        w,h = int(self.fixed_energy_w), int(self.fixed_energy_h) 
         self.output_system_canvas = QPixmap(w, h)
         qp = QPainter(self.output_system_canvas)
         qp.setRenderHint(QPainter.RenderHints.Antialiasing)
         #qp.setRenderHints(qp.Antialiasing)
-        self.output_system_canvas.fill( QColor(self.colors["Background"]) )
+        self.output_system_canvas.fill( self.design_colors["secondary_color"] )
         if len(self.system_components["EnergyLevels"].keys()) < 2:
             qp.end()
-            self.label_output_system.setPixmap(self.output_system_canvas)
+            scene.addPixmap(self.output_system_canvas)
+            self.label_output_system.setScene(scene)
             self.update()
             return 
         
-        state_color = QColor(self.colors["State"])
-        statename_color = QColor(self.colors["StateName"])
-        transition_color = QColor(self.colors["Transition"])
-        reset_color = QColor(self.colors["Neutral"])
+        state_color = QColor(self.render_colors["State"])
+        statename_color = QColor(self.render_colors["StateName"])
+        transition_color = QColor(self.render_colors["Transition"])
+        reset_color = QColor(self.render_colors["Neutral"])
 
         def draw_rect(_x,_y,_w,_h, name = None, offset_name = (0,0), font_size = 0.8, color = state_color):
             if isinstance(color, str):
@@ -2326,7 +2402,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             path = QPainterPath()
             path.addRoundedRect(int(_x),int(_y),int(_w), int(_h), int(0.4*_h), int(0.4*_w))
             qp.fillPath(path, state_color)
-            qp.drawPath(path)
+            #qp.drawPath(path)
             if name is not None:
                 pen = QPen(statename_color)
                 pen.setWidth(2)
@@ -2414,7 +2490,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 color_to_draw = state_color
                 for t,transto in enumerate(level["CoupledTo"]):
                     if transto not in self.system_components["EnergyLevels"]:
-                        color_to_draw = self.colors["Red"]
+                        color_to_draw = self.render_colors["Red"]
                 draw_rect(level_x,level_y,level_width,level_height,name,(0.05*level_width,0) if self.plot_system_details else (0.5*level_width,0), color=color_to_draw)
                 # Save Coordinates for easier drawing
                 level["Coords"] = (level_x, level_y, level_width, level_height) #x,y,w,h
@@ -2441,7 +2517,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             cavity_x_delta = 0.04*w
             cavity_strokewidth = 0.011*w
             cavity_x2 = 0.9*w - cavity_width
-            cavity_color = QColor(self.colors["Cavity"][c%len(self.colors["Cavity"])])
+            cavity_color = QColor(self.render_colors["Cavity"][c%len(self.render_colors["Cavity"])])
             # Special Case where cavity is alone:
             if len(cavity["CoupledTo"]) == 0 or None in cavity["CoupledTo"]:
                 cavity_y1 = lowest_level
@@ -2507,7 +2583,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     
         qp.end()
 
-        self.label_output_system.setPixmap(self.output_system_canvas)
+        scene.addPixmap(self.output_system_canvas)
+        self.label_output_system.setScene(scene)
+        
         self.update()
 
     def generateCommandString(self, escape_symbol = "'"):
@@ -2623,7 +2701,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         cwd = qdacc_path_str.replace(qdacc_executable, "")
         self.plot_thread = QDaCCMainWoker(parent=self, cwd=cwd, command=plot_command)
-        self.plot_thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_main, text), lambda text: self.updateProgressBar(self.progressBar,text)) 
+        self.plot_thread.pipeUpdatesTo(lambda text: self.updateTextBrowser(self.text_output_program_main, text), lambda text: self.updateProgressBar(text)) 
         self.plot_thread.connectStarted(lambda: self.enableRunningButtonAnimation(self.button_plot_everything, [self.button_run_program]))
         self.plot_thread.connectFinished(lambda: self.disableRunningButtonAnimation(self.button_plot_everything, "Plot", [self.button_run_program]))
         self.plot_thread.connectStarted(lambda: self.button_run_and_plot.setEnabled(False))
