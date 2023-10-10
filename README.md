@@ -14,7 +14,7 @@ The Plot Tools provide a simple commandline interface to call the Evaluation Too
 - `python3 -m QDLC.plot_tools.plot_blochsphere_animated --file=filepath --indices=re,im,z [arguments]`
 - `python3 -m QDLC.plot_tools.plot_dm_animated --file=filepath --indices=re,im,z [arguments]`
 
-# GUI
+# [GUI](https://github.com/davidbauch/QDaCC-Tools/tree/main/QDLC/gui)
 The User Interface is decoupled from the main program for two main reasons:
 - To keep dependencies low; QDaCC is build to minimize external dependencies. QDaCC only depdends on Eigen for matrix handling, ALGLIB for interpolation and fmt for output formatting. In the future, QDaCC will drop its dependencies on ALGLIB and fmt. Additionally, QDaCC would need a "execute without UI" mode, which adds additional overhead.
 - To keep the GUI implementation simple; QDaCC is part of my PHD, and building a UI in python is 10 times easier than in C++
